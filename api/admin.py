@@ -10,53 +10,11 @@ admin.site.unregister(Group)
 
 
 class BaseUserAdmin(ModelAdmin):
-    list_display = (
-        "telegram_id",
-        "first_name",
-        "last_name",
-        "phone_number",
-        "role",
-    )
-    list_display_links = ("telegram_id",)
-    search_fields = ("first_name", "last_name", "phone_number")
-    list_filter = ("role", "created")
-    readonly_fields = ("telegram_id",)
-
-    fieldsets = (
-        ("Основная информация", {
-            "fields": (
-                "telegram_id",
-                "phone_number",
-                "first_name",
-                "last_name",
-                "middle_name",
-            )
-        }),
-        ("Работа", {
-            "fields": ("role", "specialization")
-        }),
-        ("Статус", {
-            "fields": ("is_active", "is_staff")
-        }),
-    )
-
-    # Role display method
-    def role(self, obj):
-        return obj.get_role_display()
-    role.short_description = "Роль"
-
-
-@admin.register(User)
-class UserAdmin(BaseUserAdmin):
     list_display = ("telegram_id", "first_name", "last_name", "middle_name", "phone_number", "role")
     list_display_links = ("telegram_id",)
     search_fields = ("first_name", "last_name", "middle_name", "phone_number")
     list_filter = ("created", "updated")
     search_help_text = "Telegram ID, Имя, Фамилия, Отчество ..."
-
-    def role(self):
-        UserAdmin.role.short_description = "Роль"
-        return self.get_role_display()
 
     fieldsets = (
         ("Основная информация", {
@@ -70,35 +28,45 @@ class UserAdmin(BaseUserAdmin):
         }),
         ("Документы", {
             "fields": (
-                "type_of_document",
                 "passport_photo",
                 "id_card_photo1",
                 "id_card_photo2",
             )
         }),
-        ("Работа", {
+        ("Финансы", {
             "fields": (
-                "role",
-                "specialization",
+                "card_number",
+                "card_holder_name",
+                "tranzit_number",
+                "bank_name",
             )
+        }),
+        ("Работа", {
+            "fields": ("role", "specialization")
         }),
         ("Статус", {
-            "fields": (
-                "is_active",
-                "is_staff",
-            )
+            "fields": ("is_active", "is_staff")
         }),
     )
+
+    def role(self, obj):
+        return obj.get_role_display()
+    role.short_description = "Роль"
+
+
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+    pass
 
 
 @admin.register(Foreman)
 class ForemanAdmin(BaseUserAdmin):
-    search_fields = ("first_name", "last_name", "phone_number")
+    pass
 
 
 @admin.register(Worker)
 class ForemanAdmin(BaseUserAdmin):
-    search_fields = ("first_name", "last_name", "phone_number")
+    pass
 
 
 
