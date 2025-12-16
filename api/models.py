@@ -1,8 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.hashers import make_password
+from django.utils.translation import gettext_lazy as _
 
-from .managers import UserManager
+from .managers import UserManager, ForemanManager, WorkerManager
+
+
+ROLE_TYPES = (
+    ('worker', 'Работник'),
+    ('foreman', 'Бригадир'),
+    ('admin', 'Админ'),
+)
+
+DOCUMENT_TYPES = (
+    ('passport', 'Passport'),
+    ('id_card', 'ID Karta'),
+)
 
 
 class Specialization(models.Model):
@@ -21,16 +34,9 @@ class Specialization(models.Model):
 
 class User(AbstractBaseUser, PermissionsMixin):
 
-    DOCUMENT_TYPES = (
-        ('passport', 'Passport'),
-        ('id_card', 'ID Karta'),
-    )
+    DOCUMENT_TYPES = DOCUMENT_TYPES
+    ROLE_TYPES = ROLE_TYPES
 
-    ROLE_TYPES = (
-        ('worker', 'Работник'),
-        ('brigader', 'Бригадир'),
-        ('admin', 'Админ'),
-    )
     username = models.CharField(default="", null=True, blank=True, max_length=1)
     telegram_id = models.CharField(verbose_name="Телеграмм ID", max_length=255, unique=True)
     phone_number = models.CharField(verbose_name="Номер телефона", max_length=255, unique=True,
@@ -62,7 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(verbose_name="Статус сотрудника", default=False,
                                    help_text="Может ли сотрудник заходить в админ панель")
     is_active = models.BooleanField(verbose_name="Статус активности пользователя", default=True)
-    is_superuser = models.BooleanField(verbose_name="Статус муперпользователя", default=False)
+    is_superuser = models.BooleanField(verbose_name="Статус cуперпользователя", default=False)
 
     created = models.DateTimeField(verbose_name="Дата создания", auto_now_add=True)
     updated = models.DateTimeField(verbose_name="Дата обновления", auto_now_add=True)
@@ -79,8 +85,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         super().save(*args, **kwargs)
 
     @property
+    def username(self):
+        return self.full_name
+
+    @property
     def full_name(self):
-        return f"{self.last_name} {self.first_name} {self.middle_name}"
+        return f"{self.last_name} {self.first_name}"
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} {self.middle_name}"
@@ -93,3 +103,47 @@ class User(AbstractBaseUser, PermissionsMixin):
             models.Index(fields=["telegram_id"]),
         ]
         ordering = ("-created",)
+
+
+class Foreman(User):
+    objects = ForemanManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _("Бригадир")
+        verbose_name_plural = _("Бригадиры")
+
+
+    def save(self, *args, **kwargs):
+        foreman = super().save(*args, **kwargs)
+        foreman.role = ROLE_TYPES.FOREMAN
+
+
+class Worker(User):
+    objects = WorkerManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _("Работник")
+        verbose_name_plural = _("Работники")
+
+
+    def save(self, *args, **kwargs):
+        foreman = super().save(*args, **kwargs)
+        foreman.role = ROLE_TYPES.WORKER
+
+
+class Brigade(models.Model):
+    name = models.CharField(verbose_name=_("Назвние"), help_text=_("Дайте название бригаде"), unique=True)
+    foreman = models.OneToOneField(verbose_name=_("Бригадир"), to=Foreman, related_name="brigade", on_delete=models.PROTECT, help_text=_("Выберите бригадира"))
+    workers = models.ManyToManyField(verbose_name=_("Рабочие"), to=Worker, related_name="worker_brigade", help_text=_("Выберите рабочих"))
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _("Бригада")
+        verbose_name_plural = _("Бригады")
+        ordering = ["-created"]
+
+    def __str__(self):
+        return self.name

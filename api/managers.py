@@ -21,3 +21,14 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", True)
 
         return self.create_user(phone_number, password, **extra_fields)
+
+
+class ForemanManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(role="foreman")
+
+
+class WorkerManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(role="worker")
+
