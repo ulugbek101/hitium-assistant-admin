@@ -24,6 +24,7 @@ class BaseUserAdmin(ModelAdmin):
                 "first_name",
                 "last_name",
                 "middle_name",
+                "born_year",
             )
         }),
         ("Документы", {

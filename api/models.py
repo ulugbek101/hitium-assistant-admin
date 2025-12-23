@@ -46,6 +46,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(verbose_name="Фамилия", max_length=255)
     middle_name = models.CharField(verbose_name="Отчество", max_length=255)
 
+    born_year = models.DateField(verbose_name="Дата рождения")
+
     type_of_document = models.CharField(verbose_name="Тип документа",
                                         max_length=50, choices=DOCUMENT_TYPES)
 

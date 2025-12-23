@@ -1,9 +1,9 @@
+from datetime import datetime
+
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 
 from rest_framework.views import csrf_exempt
-
-from api.models import Specialization
 
 User = get_user_model()
 
@@ -42,6 +42,7 @@ def register_user_in_db(data, files):
             first_name=data.get("first_name"),
             last_name=data.get("last_name"),
             middle_name=data.get("middle_name"),
+            born_year=datetime.strptime(data.get("born_year"), "%Y-%m-%d").date(),
             type_of_document=data.get("type_of_document"),
             card_number=data.get("card_number"),
             card_holder_name=data.get("card_holder_name"),
@@ -64,6 +65,7 @@ def register_user_in_db(data, files):
     user.card_holder_name = data.get("card_holder_name") or user.card_holder_name
     user.tranzit_number = data.get("tranzit_number") or user.tranzit_number
     user.bank_name = data.get("bank_name") or user.bank_name
+    user.born_year = datetime.strptime(data.get("born_year"), "%Y-%m-%d").date() or user.born_year
     user.specialization = specialization or user.specialization
 
     # 5. Update files only if sent
