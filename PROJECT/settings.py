@@ -1,3 +1,7 @@
+import os
+
+from django.utils.translation import gettext_lazy as _
+from django.urls import reverse_lazy
 from pathlib import Path
 
 from environs import Env
@@ -14,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str('SECRET_KEY')
+TELEGRAM_BOT_TOKEN=env.str('TELEGRAM_BOT_TOKEN')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(env.int('DEBUG'))
@@ -167,11 +172,131 @@ AUTH_USER_MODEL = 'api.User'
 
 UNFOLD = {
     "SITE_TITLE": "Админ панель Hitium",
-    "SITE_HEADER": "Hitium — Администрирование",
-    "SITE_URL": "/",
-    "SITE_SYMBOL": "dashboard",
+    "SITE_HEADER": "Панель управления",
+    "SITE_URL": None,
+    "SITE_SYMBOL": "joystick",
     "LOGIN": {
         "TITLE": "Вход в систему Hitium",
         "SUBTITLE": "Панель администратора",
+    },
+    "SHOW_BACK_BUTTON": True,
+
+    "SIDEBAR": {
+        "show_search": True,  # Search in applications and models names
+        "command_search": False,  # Replace the sidebar search with the command search
+        "show_all_applications": False,  # Dropdown with all applications and models
+        "navigation": [
+            {
+                "title": _("Основное"),
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Задачи"),
+                        "icon": "list",
+                        "link": reverse_lazy("admin:api_task_changelist"),
+                        "badge": "api.views.tasks",
+                        "badge_variant": "success", # info, success, warning, primary, danger
+                        # "badge_style": "solid", # background fill style
+                        # "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Бригады"),
+                        "icon": "dashboard",
+                        "link": reverse_lazy("admin:api_brigade_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": _("Команда"),
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Все"),
+                        "icon": "people",
+                        "link": reverse_lazy("admin:api_user_changelist"),
+                        # "badge": "3",
+                        # "badge_variant": "success", # info, success, warning, primary, danger
+                        # "badge_style": "solid", # background fill style
+                        # "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Бригадиры"),
+                        "icon": "person",
+                        "link": reverse_lazy("admin:api_foreman_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": _("Другое"),
+                "separator": True,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Отметки"),
+                        "icon": "check",
+                        "link": reverse_lazy("admin:api_attendance_changelist"),
+                    },
+                    {
+                        "title": _("Работники"),
+                        "icon": "engineering",
+                        "link": reverse_lazy("admin:api_worker_changelist"),
+                    },
+                    {
+                        "title": _("Рабочие дни"),
+                        "icon": "calendar_month",
+                        "link": reverse_lazy("admin:api_day_changelist"),
+                    },
+                    {
+                        "title": _("Специализации"),
+                        "icon": "work",
+                        "link": reverse_lazy("admin:api_specialization_changelist"),
+                    },
+                ],
+            },
+        ],
+    },
+}
+
+
+LOG_DIR = os.path.join(BASE_DIR, 'logs')
+os.makedirs(LOG_DIR, exist_ok=True)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} [{levelname}] {name}: {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '[{levelname}] {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOG_DIR, 'tasks.log'),
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'task_logger': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
     },
 }

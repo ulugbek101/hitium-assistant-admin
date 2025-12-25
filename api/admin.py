@@ -63,8 +63,9 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(Foreman)
 class ForemanAdmin(BaseUserAdmin):
-    def has_add_permission(self, request):
-        return False
+    # def has_add_permission(self, request):
+    #     return False
+    ...
 
 
 @admin.register(Worker)

@@ -8,7 +8,7 @@ from rest_framework.views import csrf_exempt
 User = get_user_model()
 
 from django.db import transaction
-from .models import User, Specialization
+from .models import User, Specialization, Task
 
 
 @transaction.atomic
@@ -97,3 +97,7 @@ def register_user(request):
     register_user_in_db(user_data, user_files)
 
     return JsonResponse({"status": "ok"})
+
+
+def tasks(request):
+    return Task.objects.count()
