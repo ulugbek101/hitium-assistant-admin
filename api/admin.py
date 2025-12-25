@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from unfold.admin import ModelAdmin
 from django.db.models import Count
 
-from .models import Specialization, User, Brigade, Foreman, Worker
+from .models import Specialization, User, Brigade, Foreman, Worker, Day, Attendance, BotUser, Task
 
 
 admin.site.unregister(Group)
@@ -57,17 +57,19 @@ class BaseUserAdmin(ModelAdmin):
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    pass
+    def has_add_permission(self, request):
+        return False
 
 
 @admin.register(Foreman)
 class ForemanAdmin(BaseUserAdmin):
-    pass
+    def has_add_permission(self, request):
+        return False
 
 
 @admin.register(Worker)
-class ForemanAdmin(BaseUserAdmin):
-    pass
+class WorkerAdmin(BaseUserAdmin):
+    ...
 
 
 
@@ -84,6 +86,7 @@ class SpecializationAdmin(ModelAdmin):
 class BrigadeAdmin(ModelAdmin):
     list_display = ("name", "foreman", "workers_count")
     autocomplete_fields = ("foreman", "workers")
+    search_fields = ("name",)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -93,3 +96,39 @@ class BrigadeAdmin(ModelAdmin):
         return obj.workers_count
 
     workers_count.short_description = "Кол-во рабочих"
+
+
+@admin.register(Day)
+class DayAdmin(ModelAdmin):
+    search_fields = ("date",)
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(Attendance)
+class AttendanceAdmin(ModelAdmin):
+    autocomplete_fields = ("day", "worker")
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(BotUser)
+class BotUserAdmin(ModelAdmin):
+    search_fields = ["first_name", "last_name", "middle_name"]
+
+    def has_module_permission(self, request):
+        # Hide model from admin index (sidebar)
+        return False
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(Task)
+class TaskAdmin(ModelAdmin):
+    autocomplete_fields = ["brigades"]
+    search_fields = ["name", "description", "deadline"]
+
+

@@ -18,6 +18,35 @@ DOCUMENT_TYPES = (
 )
 
 
+class BotUser(models.Model):
+    id = models.AutoField(primary_key=True)
+    telegram_id = models.CharField(max_length=255, unique=True)
+    lang = models.CharField(max_length=2, default='uz')
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+    middle_name = models.CharField(max_length=50, null=True, blank=True)
+    born_year = models.DateField(null=True, blank=True)
+    phone_number = models.CharField(max_length=12, null=True, blank=True)
+    type_of_document = models.CharField(max_length=20, null=True, blank=True)
+    card_number = models.CharField(max_length=16, null=True, blank=True)
+    card_holder_name = models.CharField(max_length=100, null=True, blank=True)
+    tranzit_number = models.CharField(max_length=50, null=True, blank=True)
+    bank_name = models.CharField(max_length=20, null=True, blank=True)
+    specialization = models.CharField(max_length=255, null=True, blank=True)
+    id_card_photo1 = models.CharField(max_length=255, null=True, blank=True)
+    id_card_photo2 = models.CharField(max_length=255, null=True, blank=True)
+    passport_photo = models.CharField(max_length=255, null=True, blank=True)
+
+    class Meta:
+        db_table = "users"
+        verbose_name = "Рабочий"
+        verbose_name_plural = "Рабочие"
+        managed = False
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} {self.middle_name}"
+
+
 class Specialization(models.Model):
     name = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
@@ -117,8 +146,8 @@ class Foreman(User):
 
 
     def save(self, *args, **kwargs):
-        foreman = super().save(*args, **kwargs)
-        foreman.role = ROLE_TYPES.FOREMAN
+        self.role = "foreman"
+        super().save(*args, **kwargs)
 
 
 class Worker(User):
@@ -131,8 +160,8 @@ class Worker(User):
 
 
     def save(self, *args, **kwargs):
-        foreman = super().save(*args, **kwargs)
-        foreman.role = ROLE_TYPES.WORKER
+        self.role = "worker"
+        super().save(*args, **kwargs)
 
 
 class Brigade(models.Model):
@@ -149,3 +178,50 @@ class Brigade(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Day(models.Model):
+    id = models.AutoField(primary_key=True)
+    date = models.DateField(verbose_name="Дата рабочего дня")
+
+    class Meta:
+        db_table = "days"
+        verbose_name = "Рабочий день"
+        verbose_name_plural = "Рабочие дни"
+        managed = False
+
+    def __str__(self):
+        return self.date.strftime("%Y-%m-%d")
+
+
+class Attendance(models.Model):
+    id = models.AutoField(primary_key=True)
+    worker = models.ForeignKey(BotUser, on_delete=models.CASCADE, db_column="worker", verbose_name="Рабочий")
+    day = models.ForeignKey(Day, on_delete=models.CASCADE, db_column="day", verbose_name="Рабочий день")
+    is_absent = models.BooleanField(default=True, verbose_name="Отсутсвует", help_text="Если работник ЯВИЛСЯ на работу, то надо ОТКЛЮЧТЬ")
+    start_time = models.TimeField(null=True, blank=True, verbose_name="Время начала работы", help_text="Когда работник начал рабочий день")
+    end_time = models.TimeField(null=True, blank=True, verbose_name="Время завершения работы", help_text="Когда работник завершил рабочий день")
+
+    class Meta:
+        db_table = "attendance"
+        verbose_name = "Отметка"
+        verbose_name_plural = "Отметки"
+        managed = False
+
+    def __str__(self):
+        return f"{self.worker.first_name} - {self.day.date.strftime("%Y-%m-%d")} - {'✅' if self.is_absent else '❌'}"
+
+
+class Task(models.Model):
+    name = models.CharField(verbose_name="Название задачи", help_text="Краткое описание задачи")
+    description = models.TextField(verbose_name="Описание", help_text="Подробное описание задачи")
+    brigades = models.ManyToManyField(verbose_name="Бригады", to=Brigade, help_text="Бригады, которые) будут заниматься задачей")
+    is_done = models.BooleanField(verbose_name="Завершено")
+    deadline = models.DateField(verbose_name="Дедлайн", help_text="Дата завершения работы")
+
+    class Meta:
+        verbose_name = "Задача"
+        verbose_name_plural = "Задачи"
+
+    def __str__(self):
+        return f"{self.name[:50]} - {self.brigade.name}"

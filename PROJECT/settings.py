@@ -82,6 +82,15 @@ if DEBUG:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
+        },
+        'bot': {
+            # Telegram bot DB
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'hitium_assistant',
+            'USER': 'root',
+            'PASSWORD': '12345678',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
         }
     }
 else:
@@ -93,9 +102,19 @@ else:
             'PASSWORD': env.str('DB_PASSWORD'),
             'HOST': env.str('DB_HOST'),
             'PORT': env.str('DB_PORT'),
+        },
+        'bot': {
+            # Telegram bot DB
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'hitium_assistant',
+            'USER': 'bot_user',
+            'PASSWORD': 'password',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
         }
     }
 
+DATABASE_ROUTERS = ['PROJECT.routers.DayRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
