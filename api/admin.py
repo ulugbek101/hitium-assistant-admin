@@ -69,8 +69,8 @@ class ForemanAdmin(BaseUserAdmin):
 
 @admin.register(Worker)
 class WorkerAdmin(BaseUserAdmin):
-    ...
-
+    def has_add_permission(self, request):
+        return False
 
 
 @admin.register(Specialization)

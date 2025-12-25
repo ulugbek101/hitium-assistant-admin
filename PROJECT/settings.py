@@ -164,3 +164,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.User'
+
+UNFOLD = {
+    "SITE_TITLE": "Админ панель Hitium",
+    "SITE_HEADER": "Hitium — Администрирование",
+    "SITE_URL": "/",
+    "SITE_SYMBOL": "dashboard",
+    "LOGIN": {
+        "TITLE": "Вход в систему Hitium",
+        "SUBTITLE": "Панель администратора",
+    },
+}

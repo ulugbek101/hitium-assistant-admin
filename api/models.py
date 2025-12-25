@@ -7,14 +7,14 @@ from .managers import UserManager, ForemanManager, WorkerManager
 
 
 ROLE_TYPES = (
-    ('worker', 'Работник'),
-    ('foreman', 'Бригадир'),
-    ('admin', 'Админ'),
+    ('worker', _("Работник")),
+    ('foreman', _("Бригадир")),
+    ('admin', _("Админ")),
 )
 
 DOCUMENT_TYPES = (
-    ('passport', 'Passport'),
-    ('id_card', 'ID Karta'),
+    ('passport', _("Passport")),
+    ('id_card', _("ID Karta")),
 )
 
 
@@ -39,8 +39,8 @@ class BotUser(models.Model):
 
     class Meta:
         db_table = "users"
-        verbose_name = "Рабочий"
-        verbose_name_plural = "Рабочие"
+        verbose_name = _("Рабочий")
+        verbose_name_plural = _("Рабочие")
         managed = False
 
     def __str__(self):
@@ -49,15 +49,17 @@ class BotUser(models.Model):
 
 class Specialization(models.Model):
     name = models.CharField(max_length=255)
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
+    created = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("Дата создания"))
+    updated = models.DateTimeField(
+        auto_now=True, verbose_name=_("Дата обновления"))
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = "Специализация"
-        verbose_name_plural = "Специализации"
+        verbose_name = _("Специализация")
+        verbose_name_plural = _("Специализации")
         ordering = ("-created",)
 
 
@@ -66,47 +68,98 @@ class User(AbstractBaseUser, PermissionsMixin):
     DOCUMENT_TYPES = DOCUMENT_TYPES
     ROLE_TYPES = ROLE_TYPES
 
-    username = models.CharField(default="", null=True, blank=True, max_length=1)
-    telegram_id = models.CharField(verbose_name="Телеграмм ID", max_length=255, unique=True)
-    phone_number = models.CharField(verbose_name="Номер телефона", max_length=255, unique=True,
-                                    help_text="Должен быть в формате 998996937308")
-
-    first_name = models.CharField(verbose_name="Имя", max_length=255)
-    last_name = models.CharField(verbose_name="Фамилия", max_length=255)
-    middle_name = models.CharField(verbose_name="Отчество", max_length=255)
-
-    born_year = models.DateField(verbose_name="Дата рождения")
-
-    type_of_document = models.CharField(verbose_name="Тип документа",
-                                        max_length=50, choices=DOCUMENT_TYPES)
-
-    card_number = models.CharField(verbose_name="Номер карты", max_length=16)
-    card_holder_name = models.CharField(verbose_name="Носитель карты", max_length=255)
-    tranzit_number = models.CharField(verbose_name="Транзитный номер", max_length=255)
-    bank_name = models.CharField(verbose_name="Наименование банка", max_length=255)
-
-    specialization = models.ForeignKey(
-        Specialization, verbose_name="Специализация",
-        on_delete=models.PROTECT, null=True,
+    username = models.CharField(
+        default="", null=True, blank=True, max_length=1)
+    telegram_id = models.CharField(verbose_name=_(
+        "Телеграмм ID"), max_length=255, unique=True)
+    phone_number = models.CharField(
+        verbose_name=_("Номер телефона"),
+        max_length=255,
+        unique=True,
+        help_text=_("Должен быть в формате 998996937308"),
     )
 
-    role = models.CharField(verbose_name="Роль", max_length=50, choices=ROLE_TYPES, default='worker')
+    first_name = models.CharField(verbose_name=_("Имя"), max_length=255)
+    last_name = models.CharField(verbose_name=_("Фамилия"), max_length=255)
+    middle_name = models.CharField(verbose_name=_("Отчество"), max_length=255)
 
-    passport_photo = models.ImageField(verbose_name="Фото пасспорта", upload_to='photos/', null=True, blank=True)
-    id_card_photo1 = models.ImageField(verbose_name="Фото ID карты (лицевая часть)", upload_to='photos/', null=True, blank=True)
-    id_card_photo2 = models.ImageField(verbose_name="Фото ID карты (задняя часть)", upload_to='photos/', null=True, blank=True)
+    born_year = models.DateField(verbose_name=_("Дата рождения"))
 
-    is_staff = models.BooleanField(verbose_name="Статус сотрудника", default=False,
-                                   help_text="Может ли сотрудник заходить в админ панель")
-    is_active = models.BooleanField(verbose_name="Статус активности пользователя", default=True)
-    is_superuser = models.BooleanField(verbose_name="Статус cуперпользователя", default=False)
+    type_of_document = models.CharField(
+        verbose_name=_("Тип документа"),
+        max_length=50,
+        choices=DOCUMENT_TYPES,
+    )
 
-    created = models.DateTimeField(verbose_name="Дата создания", auto_now_add=True)
-    updated = models.DateTimeField(verbose_name="Дата обновления", auto_now_add=True)
+    card_number = models.CharField(
+        verbose_name=_("Номер карты"), max_length=16)
+    card_holder_name = models.CharField(
+        verbose_name=_("Носитель карты"), max_length=255)
+    tranzit_number = models.CharField(
+        verbose_name=_("Транзитный номер"), max_length=255)
+    bank_name = models.CharField(verbose_name=_(
+        "Наименование банка"), max_length=255)
+
+    specialization = models.ForeignKey(
+        Specialization,
+        verbose_name=_("Специализация"),
+        on_delete=models.PROTECT,
+        null=True,
+    )
+
+    role = models.CharField(
+        verbose_name=_("Роль"),
+        max_length=50,
+        choices=ROLE_TYPES,
+        default='worker',
+    )
+
+    passport_photo = models.ImageField(
+        verbose_name=_("Фото пасспорта"),
+        upload_to='photos/',
+        null=True,
+        blank=True,
+    )
+    id_card_photo1 = models.ImageField(
+        verbose_name=_("Фото ID карты (лицевая часть)"),
+        upload_to='photos/',
+        null=True,
+        blank=True,
+    )
+    id_card_photo2 = models.ImageField(
+        verbose_name=_("Фото ID карты (задняя часть)"),
+        upload_to='photos/',
+        null=True,
+        blank=True,
+    )
+
+    is_staff = models.BooleanField(
+        verbose_name=_("Статус сотрудника"),
+        default=False,
+        help_text=_("Может ли сотрудник заходить в админ панель"),
+    )
+    is_active = models.BooleanField(verbose_name=_(
+        "Статус активности пользователя"), default=True)
+    is_superuser = models.BooleanField(verbose_name=_(
+        "Статус cуперпользователя"), default=False)
+
+    created = models.DateTimeField(
+        verbose_name=_("Дата создания"), auto_now_add=True)
+    updated = models.DateTimeField(verbose_name=_(
+        "Дата обновления"), auto_now_add=True)
 
     USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = ['telegram_id', 'first_name', 'last_name', 'middle_name', 'type_of_document',
-                       'card_number', 'card_holder_name', 'tranzit_number', 'bank_name']
+    REQUIRED_FIELDS = [
+        'telegram_id',
+        'first_name',
+        'last_name',
+        'middle_name',
+        'type_of_document',
+        'card_number',
+        'card_holder_name',
+        'tranzit_number',
+        'bank_name',
+    ]
 
     objects = UserManager()
 
@@ -127,8 +180,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         return f"{self.first_name} {self.last_name} {self.middle_name}"
 
     class Meta:
-        verbose_name = "Пользователь"
-        verbose_name_plural = "Пользователи"
+        verbose_name = _("Пользователь")
+        verbose_name_plural = _("Пользователи")
         indexes = [
             models.Index(fields=["phone_number"]),
             models.Index(fields=["telegram_id"]),
@@ -144,7 +197,6 @@ class Foreman(User):
         verbose_name = _("Бригадир")
         verbose_name_plural = _("Бригадиры")
 
-
     def save(self, *args, **kwargs):
         self.role = "foreman"
         super().save(*args, **kwargs)
@@ -158,16 +210,30 @@ class Worker(User):
         verbose_name = _("Работник")
         verbose_name_plural = _("Работники")
 
-
     def save(self, *args, **kwargs):
         self.role = "worker"
         super().save(*args, **kwargs)
 
 
 class Brigade(models.Model):
-    name = models.CharField(verbose_name=_("Назвние"), help_text=_("Дайте название бригаде"), unique=True)
-    foreman = models.OneToOneField(verbose_name=_("Бригадир"), to=Foreman, related_name="brigade", on_delete=models.PROTECT, help_text=_("Выберите бригадира"))
-    workers = models.ManyToManyField(verbose_name=_("Рабочие"), to=Worker, related_name="worker_brigade", help_text=_("Выберите рабочих"))
+    name = models.CharField(
+        verbose_name=_("Назвние"),
+        help_text=_("Дайте название бригаде"),
+        unique=True,
+    )
+    foreman = models.OneToOneField(
+        verbose_name=_("Бригадир"),
+        to=Foreman,
+        related_name="brigade",
+        on_delete=models.PROTECT,
+        help_text=_("Выберите бригадира"),
+    )
+    workers = models.ManyToManyField(
+        verbose_name=_("Рабочие"),
+        to=Worker,
+        related_name="worker_brigade",
+        help_text=_("Выберите рабочих"),
+    )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -182,12 +248,12 @@ class Brigade(models.Model):
 
 class Day(models.Model):
     id = models.AutoField(primary_key=True)
-    date = models.DateField(verbose_name="Дата рабочего дня")
+    date = models.DateField(verbose_name=_("Дата рабочего дня"))
 
     class Meta:
         db_table = "days"
-        verbose_name = "Рабочий день"
-        verbose_name_plural = "Рабочие дни"
+        verbose_name = _("Рабочий день")
+        verbose_name_plural = _("Рабочие дни")
         managed = False
 
     def __str__(self):
@@ -196,32 +262,69 @@ class Day(models.Model):
 
 class Attendance(models.Model):
     id = models.AutoField(primary_key=True)
-    worker = models.ForeignKey(BotUser, on_delete=models.CASCADE, db_column="worker", verbose_name="Рабочий")
-    day = models.ForeignKey(Day, on_delete=models.CASCADE, db_column="day", verbose_name="Рабочий день")
-    is_absent = models.BooleanField(default=True, verbose_name="Отсутсвует", help_text="Если работник ЯВИЛСЯ на работу, то надо ОТКЛЮЧТЬ")
-    start_time = models.TimeField(null=True, blank=True, verbose_name="Время начала работы", help_text="Когда работник начал рабочий день")
-    end_time = models.TimeField(null=True, blank=True, verbose_name="Время завершения работы", help_text="Когда работник завершил рабочий день")
+    worker = models.ForeignKey(
+        BotUser,
+        on_delete=models.CASCADE,
+        db_column="worker",
+        verbose_name=_("Рабочий"),
+    )
+    day = models.ForeignKey(
+        Day,
+        on_delete=models.CASCADE,
+        db_column="day",
+        verbose_name=_("Рабочий день"),
+    )
+    is_absent = models.BooleanField(
+        default=True,
+        verbose_name=_("Отсутсвует"),
+        help_text=_("Если работник ЯВИЛСЯ на работу, то надо ОТКЛЮЧТЬ"),
+    )
+    start_time = models.TimeField(
+        null=True,
+        blank=True,
+        verbose_name=_("Время начала работы"),
+        help_text=_("Когда работник начал рабочий день"),
+    )
+    end_time = models.TimeField(
+        null=True,
+        blank=True,
+        verbose_name=_("Время завершения работы"),
+        help_text=_("Когда работник завершил рабочий день"),
+    )
 
     class Meta:
         db_table = "attendance"
-        verbose_name = "Отметка"
-        verbose_name_plural = "Отметки"
+        verbose_name = _("Отметка")
+        verbose_name_plural = _("Отметки")
         managed = False
 
     def __str__(self):
-        return f"{self.worker.first_name} - {self.day.date.strftime("%Y-%m-%d")} - {'✅' if self.is_absent else '❌'}"
+        return f"{self.worker.first_name} - {self.day.date.strftime('%Y-%m-%d')} - {'✅' if self.is_absent else '❌'}"
 
 
 class Task(models.Model):
-    name = models.CharField(verbose_name="Название задачи", help_text="Краткое описание задачи")
-    description = models.TextField(verbose_name="Описание", help_text="Подробное описание задачи")
-    brigades = models.ManyToManyField(verbose_name="Бригады", to=Brigade, help_text="Бригады, которые) будут заниматься задачей")
-    is_done = models.BooleanField(verbose_name="Завершено")
-    deadline = models.DateField(verbose_name="Дедлайн", help_text="Дата завершения работы")
+    name = models.CharField(
+        verbose_name=_("Название задачи"),
+        help_text=_("Краткое описание задачи"),
+    )
+    description = models.TextField(
+        verbose_name=_("Описание"),
+        help_text=_("Подробное описание задачи"),
+    )
+    brigades = models.ManyToManyField(
+        verbose_name=_("Бригады"),
+        to=Brigade,
+        help_text=_("Бригады, которые будут заниматься задачей"),
+    )
+    is_done = models.BooleanField(verbose_name=_("Завершено"))
+    deadline = models.DateField(
+        verbose_name=_("Дедлайн"),
+        help_text=_("Дата завершения работы"),
+    )
 
     class Meta:
-        verbose_name = "Задача"
-        verbose_name_plural = "Задачи"
+        verbose_name = _("Задача")
+        verbose_name_plural = _("Задачи")
 
     def __str__(self):
-        return f"{self.name[:50]} - {self.brigade.name}"
+        return f"{self.name[:50]}"
