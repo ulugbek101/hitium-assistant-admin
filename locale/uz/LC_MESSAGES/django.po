@@ -1,0 +1,295 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-27 15:01+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: PROJECT/settings.py:193
+msgid "Основное"
+msgstr ""
+
+#: PROJECT/settings.py:197 api/models.py:327
+msgid "Задачи"
+msgstr ""
+
+#: PROJECT/settings.py:206 api/models.py:242 api/models.py:315
+msgid "Бригады"
+msgstr ""
+
+#: PROJECT/settings.py:213
+msgid "Команда"
+msgstr ""
+
+#: PROJECT/settings.py:218
+msgid "Все"
+msgstr ""
+
+#: PROJECT/settings.py:227 api/models.py:198
+msgid "Бригадиры"
+msgstr ""
+
+#: PROJECT/settings.py:234
+msgid "Другое"
+msgstr ""
+
+#: PROJECT/settings.py:239 api/models.py:298
+msgid "Отметки"
+msgstr ""
+
+#: PROJECT/settings.py:244 api/models.py:211
+msgid "Работники"
+msgstr ""
+
+#: PROJECT/settings.py:249 api/models.py:256
+msgid "Рабочие дни"
+msgstr ""
+
+#: PROJECT/settings.py:254 api/models.py:62
+msgid "Специализации"
+msgstr ""
+
+#: api/models.py:10 api/models.py:210
+msgid "Работник"
+msgstr ""
+
+#: api/models.py:11 api/models.py:197 api/models.py:225
+msgid "Бригадир"
+msgstr ""
+
+#: api/models.py:12
+msgid "Админ"
+msgstr ""
+
+#: api/models.py:16
+msgid "Passport"
+msgstr ""
+
+#: api/models.py:17
+msgid "ID Karta"
+msgstr ""
+
+#: api/models.py:42 api/models.py:269
+msgid "Рабочий"
+msgstr ""
+
+#: api/models.py:43 api/models.py:232
+msgid "Рабочие"
+msgstr ""
+
+#: api/models.py:53 api/models.py:147
+msgid "Дата создания"
+msgstr ""
+
+#: api/models.py:55 api/models.py:149
+msgid "Дата обновления"
+msgstr ""
+
+#: api/models.py:61 api/models.py:105
+msgid "Специализация"
+msgstr ""
+
+#: api/models.py:74
+msgid "Телеграмм ID"
+msgstr ""
+
+#: api/models.py:76
+msgid "Номер телефона"
+msgstr ""
+
+#: api/models.py:79
+msgid "Должен быть в формате 998996937308"
+msgstr ""
+
+#: api/models.py:82
+msgid "Имя"
+msgstr ""
+
+#: api/models.py:83
+msgid "Фамилия"
+msgstr ""
+
+#: api/models.py:84
+msgid "Отчество"
+msgstr ""
+
+#: api/models.py:86
+msgid "Дата рождения"
+msgstr ""
+
+#: api/models.py:89
+msgid "Тип документа"
+msgstr ""
+
+#: api/models.py:95
+msgid "Номер карты"
+msgstr ""
+
+#: api/models.py:97
+msgid "Носитель карты"
+msgstr ""
+
+#: api/models.py:99
+msgid "Транзитный номер"
+msgstr ""
+
+#: api/models.py:101
+msgid "Наименование банка"
+msgstr ""
+
+#: api/models.py:111
+msgid "Роль"
+msgstr ""
+
+#: api/models.py:118
+msgid "Фото пасспорта"
+msgstr ""
+
+#: api/models.py:124
+msgid "Фото ID карты (лицевая часть)"
+msgstr ""
+
+#: api/models.py:130
+msgid "Фото ID карты (задняя часть)"
+msgstr ""
+
+#: api/models.py:137
+msgid "Статус сотрудника"
+msgstr ""
+
+#: api/models.py:139
+msgid "Может ли сотрудник заходить в админ панель"
+msgstr ""
+
+#: api/models.py:142
+msgid "Статус активности пользователя"
+msgstr ""
+
+#: api/models.py:144
+msgid "Статус cуперпользователя"
+msgstr ""
+
+#: api/models.py:183
+msgid "Пользователь"
+msgstr ""
+
+#: api/models.py:184
+msgid "Пользователи"
+msgstr ""
+
+#: api/models.py:220
+msgid "Назвние"
+msgstr ""
+
+#: api/models.py:221
+msgid "Дайте название бригаде"
+msgstr ""
+
+#: api/models.py:229
+msgid "Выберите бригадира"
+msgstr ""
+
+#: api/models.py:235
+msgid "Выберите рабочих"
+msgstr ""
+
+#: api/models.py:241
+msgid "Бригада"
+msgstr ""
+
+#: api/models.py:251
+msgid "Дата рабочего дня"
+msgstr ""
+
+#: api/models.py:255 api/models.py:275
+msgid "Рабочий день"
+msgstr ""
+
+#: api/models.py:279
+msgid "Отсутсвует"
+msgstr ""
+
+#: api/models.py:280
+msgid "Если работник ЯВИЛСЯ на работу, то надо ОТКЛЮЧТЬ"
+msgstr ""
+
+#: api/models.py:285
+msgid "Время начала работы"
+msgstr ""
+
+#: api/models.py:286
+msgid "Когда работник начал рабочий день"
+msgstr ""
+
+#: api/models.py:291
+msgid "Время завершения работы"
+msgstr "Ishni tugatgan vaqti"
+
+#: api/models.py:292
+msgid "Когда работник завершил рабочий день"
+msgstr "Ishni qachon ishni tugatgan"
+
+#: api/models.py:297
+msgid "Отметка"
+msgstr "Davomat"
+
+#: api/models.py:307
+msgid "Название задачи"
+msgstr "Vazifa nomi"
+
+#: api/models.py:308
+msgid "Краткое описание задачи"
+msgstr "Qisqacha ta'rifi"
+
+#: api/models.py:311
+msgid "Описание"
+msgstr "Ta'rifi"
+
+#: api/models.py:312
+msgid "Подробное описание задачи"
+msgstr "Vazifaning batafsil ta'rifi"
+
+#: api/models.py:317
+msgid "Бригады, которые будут заниматься задачей"
+msgstr "Vazifa bilan shug'ullanadigan brigadalar"
+
+#: api/models.py:319
+msgid "Завершено"
+msgstr "Tugagan"
+
+#: api/models.py:321
+msgid "Дедлайн"
+msgstr "Muhlat"
+
+#: api/models.py:322
+msgid "Дата завершения работы"
+msgstr "Ishni tugatish vaqti"
+
+#: api/models.py:326
+msgid "Задача"
+msgstr "Vazifa"
+
+#: api/translations.py:17
+msgid "Новая задача"
+msgstr "Yangi vazifa"
+
+#: api/translations.py:20
+msgid "Дата сдачи"
+msgstr "Topshirish sanasi"
+
+#: api/translations.py:23
+msgid "Что бы прочитать полностью, перейдите в раздел задач с командой /tasks"
+msgstr "To'liq tanishish uchun, /task buyrug'i bilan vazifalar bo'limiga o'ting"

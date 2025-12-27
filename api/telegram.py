@@ -5,7 +5,8 @@ def send_message(chat_id, text):
     url = f"https://api.telegram.org/bot{settings.TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
         "chat_id": chat_id,
-        "text": text
+        "text": text,
+        "parse_mode": "HTML",
     }
     response = requests.get(url, params=payload)
     return response.json()

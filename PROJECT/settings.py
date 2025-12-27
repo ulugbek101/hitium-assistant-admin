@@ -32,6 +32,9 @@ INSTALLED_APPS = [
     # 3rd party apps
     'unfold',
 
+    # Django Model Translation
+    'modeltranslation',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -151,6 +154,11 @@ USE_I18N = True
 
 USE_TZ = True
 
+LANGUAGES = (
+    ('uz', _('Узбекский')),
+    ('ru', _('Русский'))
+)
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -188,7 +196,7 @@ UNFOLD = {
         "navigation": [
             {
                 "title": _("Основное"),
-                "collapsible": True,
+                # "collapsible": True,
                 "items": [
                     {
                         "title": _("Задачи"),
@@ -209,7 +217,7 @@ UNFOLD = {
             {
                 "title": _("Команда"),
                 "separator": True,
-                "collapsible": True,
+                # "collapsible": True,
                 "items": [
                     {
                         "title": _("Все"),
@@ -230,7 +238,7 @@ UNFOLD = {
             {
                 "title": _("Другое"),
                 "separator": True,  # Top border
-                "collapsible": True,  # Collapsible group of links
+                # "collapsible": True,  # Collapsible group of links
                 "items": [
                     {
                         "title": _("Отметки"),
@@ -300,3 +308,7 @@ LOGGING = {
         },
     },
 }
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
