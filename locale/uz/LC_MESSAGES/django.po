@@ -292,4 +292,4 @@ msgstr "Topshirish sanasi"
 
 #: api/translations.py:23
 msgid "Что бы прочитать полностью, перейдите в раздел задач с командой /tasks"
-msgstr "To'liq tanishish uchun, /task buyrug'i bilan vazifalar bo'limiga o'ting"
+msgstr "To'liq tanishish uchun, /tasks buyrug'i bilan vazifalar bo'limiga o'ting"

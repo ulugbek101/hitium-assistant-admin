@@ -1,12 +1,5 @@
 from django.utils.translation import override, gettext_lazy as _
 
-from modeltranslation.translator import register, TranslationOptions
-from api.models import Task
-
-@register(Task)
-class TaskTranslationOptions(TranslationOptions):
-	fields = ('name', 'description')
-
 
 def build_task_message(lang, title, description, deadline):
     """

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', ['localhost', '127.0.0.1'])
 INSTALLED_APPS = [
     # 3rd party apps
     'unfold',
+    'unfold.contrib.filters',
 
     # Django Model Translation
     'modeltranslation',
@@ -182,30 +183,34 @@ UNFOLD = {
     "SITE_TITLE": "Админ панель Hitium",
     "SITE_HEADER": "Панель управления",
     "SITE_URL": None,
-    "SITE_SYMBOL": "joystick",
+    "SITE_SYMBOL": "apartment",
     "LOGIN": {
         "TITLE": "Вход в систему Hitium",
         "SUBTITLE": "Панель администратора",
     },
-    "SHOW_BACK_BUTTON": True,
+    # "SHOW_BACK_BUTTON": True,
 
     "SIDEBAR": {
-        "show_search": True,  # Search in applications and models names
+        # "show_search": True,  # Search in applications and models names
         "command_search": False,  # Replace the sidebar search with the command search
         "show_all_applications": False,  # Dropdown with all applications and models
         "navigation": [
             {
                 "title": _("Основное"),
-                # "collapsible": True,
                 "items": [
                     {
                         "title": _("Задачи"),
                         "icon": "list",
                         "link": reverse_lazy("admin:api_task_changelist"),
                         "badge": "api.views.tasks",
-                        "badge_variant": "success", # info, success, warning, primary, danger
-                        # "badge_style": "solid", # background fill style
-                        # "permission": lambda request: request.user.is_superuser,
+                        "badge_variant": "primary",
+                    },
+                    {
+                        "title": _("Завершенные задачи"),
+                        "icon": "checklist",
+                        "link": reverse_lazy("admin:api_finishedwork_changelist"),
+                        "badge": "api.views.finished_works",
+                        "badge_variant": "primary",
                     },
                     {
                         "title": _("Бригады"),
@@ -217,52 +222,72 @@ UNFOLD = {
             {
                 "title": _("Команда"),
                 "separator": True,
-                # "collapsible": True,
                 "items": [
                     {
                         "title": _("Все"),
                         "icon": "people",
                         "link": reverse_lazy("admin:api_user_changelist"),
-                        # "badge": "3",
-                        # "badge_variant": "success", # info, success, warning, primary, danger
-                        # "badge_style": "solid", # background fill style
-                        # "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Сотрудники"),
+                        "icon": "engineering",
+                        "link": reverse_lazy("admin:api_worker_changelist"),
                     },
                     {
                         "title": _("Бригадиры"),
                         "icon": "person",
                         "link": reverse_lazy("admin:api_foreman_changelist"),
                     },
+                    {
+                        "title": _("Кандидаты"),
+                        "icon": "people",
+                        "link": reverse_lazy("admin:api_freshman_changelist"),
+                    }
                 ],
             },
             {
                 "title": _("Другое"),
                 "separator": True,  # Top border
-                # "collapsible": True,  # Collapsible group of links
                 "items": [
                     {
-                        "title": _("Отметки"),
-                        "icon": "check",
+                        "title": _("Табель рабочего времени"),
+                        "icon": "alarm_on",
                         "link": reverse_lazy("admin:api_attendance_changelist"),
                     },
-                    {
-                        "title": _("Работники"),
-                        "icon": "engineering",
-                        "link": reverse_lazy("admin:api_worker_changelist"),
-                    },
-                    {
-                        "title": _("Рабочие дни"),
-                        "icon": "calendar_month",
-                        "link": reverse_lazy("admin:api_day_changelist"),
-                    },
+                    # {
+                    #     "title": _("Рабочие дни"),
+                    #     "icon": "calendar_month",
+                    #     "link": reverse_lazy("admin:api_day_changelist"),
+                    # },
                     {
                         "title": _("Специализации"),
                         "icon": "work",
                         "link": reverse_lazy("admin:api_specialization_changelist"),
                     },
+                    {
+                        "title": _("Объекты"),
+                        "icon": "apartment",
+                        "link": reverse_lazy("admin:api_object_changelist"),
+                    },
                 ],
             },
         ],
+    },
+
+    "COLORS": {
+        "primary": {
+            "50":  "oklch(97% 0.020 52)",
+            "100": "oklch(94% 0.045 52)",
+            "200": "oklch(88% 0.085 52)",
+            "300": "oklch(78% 0.140 52)",
+            "400": "oklch(68% 0.195 52)",
+            "500": "oklch(60% 0.235 52)",
+            "600": "oklch(52% 0.220 52)",
+            "700": "oklch(44% 0.195 52)",
+            "800": "oklch(36% 0.160 52)",
+            "900": "oklch(28% 0.120 52)",
+            "950": "oklch(20% 0.085 52)",
+            },
     },
 }
 

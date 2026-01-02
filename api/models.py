@@ -48,7 +48,7 @@ class BotUser(models.Model):
 
 
 class Specialization(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(verbose_name=_("Название специализации"), max_length=255)
     created = models.DateTimeField(
         auto_now_add=True, verbose_name=_("Дата создания"))
     updated = models.DateTimeField(
@@ -321,10 +321,98 @@ class Task(models.Model):
         verbose_name=_("Дедлайн"),
         help_text=_("Дата завершения работы"),
     )
+    created = models.DateTimeField(verbose_name=_("Дата создания"), auto_now_add=True)
+    updated = models.DateTimeField(verbose_name=_("Дата обновления"), auto_now=True)
 
     class Meta:
+        ordering = ["is_done", "-created"]
         verbose_name = _("Задача")
         verbose_name_plural = _("Задачи")
 
     def __str__(self):
         return f"{self.name[:50]}"
+
+
+class FinishedWork(models.Model):
+    task = models.ForeignKey(verbose_name=_("Задача"), to=Task, on_delete=models.SET_NULL, null=True, related_name="finished_works")
+    task_name = models.CharField(verbose_name=_("Название задачи"), max_length=255, null=True, blank=True, help_text=_("Пожалуйста, не заполняйте это поле, оно заполниться автоматически"))
+    worker = models.ForeignKey(verbose_name=_("Работник, который сделал работу"), to=Worker, on_delete=models.SET_NULL, null=True, related_name="finished_works")
+    worker_fullname = models.CharField(verbose_name=_("Работник, который сделал работу"), max_length=255, null=True, blank=True, help_text=_("Пожалуйста, не заполняйте это поле, оно заполниться автоматически"))
+    description = models.TextField(verbose_name=_("Описание"), null=True, blank=True, help_text=_("Необязательное поле"))
+    is_done = models.BooleanField(verbose_name=_("Принято"), default=False)
+    created = models.DateTimeField(verbose_name=_("Дата создания"), auto_now_add=True)
+    updated = models.DateTimeField(verbose_name=_("Дата обновления"), auto_now=True)
+
+
+    def __str__(self):
+        return f"{_('Завершенная задача')} #{self.pk}"
+
+    class Meta:
+        ordering = ["-is_done", "-created"]
+        verbose_name = _("Завершенная задача")
+        verbose_name = _("Завершенные задачи")
+
+
+class FinishedWorkPhoto(models.Model):
+    finished_work = models.ForeignKey(verbose_name=_("Завершенная работа"), to=FinishedWork, on_delete=models.CASCADE)
+    photo = models.ImageField(verbose_name=_("Фото"), upload_to="media/", null=True, blank=True)
+    created = models.DateTimeField(verbose_name=_("Дата создания"), auto_now_add=True)
+    updated = models.DateTimeField(verbose_name=_("Дата обновления"), auto_now=True)
+
+    def __str__(self):
+        return f"Фото #{self.pk} проделанной работы #{self.finished_work.pk}"
+
+    class Meta:
+        ordering = ["-created"]
+        verbose_name = _("Фото проделанной работы")
+        verbose_name = _("Фото проделанной работы")
+
+
+class Object(models.Model):
+    name = models.CharField(verbose_name=_("Наименование объекта"), max_length=255)
+    service_type = models.CharField(verbose_name=_("Тип оказываемой услуги"), max_length=255)
+    responsible_person_details = models.CharField(verbose_name=_("Данные ответсвенной персоны"), max_length=255)
+    workers_involved = models.ManyToManyField(verbose_name=_("Вовлеченные сотруники"), to=Worker)
+    created = models.DateTimeField(verbose_name=_("Дата создания"), auto_now_add=True)
+    updated = models.DateTimeField(verbose_name=_("Дата обновления"), auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.created.strftime('%Y-%m-%d')}"
+
+    class Meta:
+        ordering = ["-created"]
+        verbose_name = _("Объект")
+        verbose_name_plural = _("Объекты")
+
+
+class ObjectPhoto(models.Model):
+    object = models.ForeignKey(verbose_name=_("Завершенная работа"), to=Object, on_delete=models.CASCADE)
+    photo = models.ImageField(verbose_name=_("Фото"), upload_to="media/", null=True, blank=True)
+    created = models.DateTimeField(verbose_name=_("Дата создания"), auto_now_add=True)
+    updated = models.DateTimeField(verbose_name=_("Дата обновления"), auto_now=True)
+
+    def __str__(self):
+        return f"Фото #{self.pk} объекта {self.object.name} созданный в {self.created.strftime('%Y-%m-%d')}"
+
+    class Meta:
+        ordering = ["-created"]
+        verbose_name = _("Фото объекта")
+        verbose_name_plural = _("Фото объекта")
+
+
+
+class Freshman(models.Model):
+    id = models.AutoField(primary_key=True)
+    fullname = models.CharField(verbose_name=_("Полное имя"), max_length=255)
+    phone_number = models.CharField(verbose_name=_("Номер телефона"), max_length=13, help_text=_("Не принимает больше чем 13 символов, например: +998996937308"))
+    specialization = models.ForeignKey(verbose_name=_("Специализация"), to=Specialization, on_delete=models.SET_NULL, null=True)
+    created = models.DateTimeField(verbose_name=_("Дата создания"), auto_now_add=True)
+    updated = models.DateTimeField(verbose_name=_("Дата обновления"), auto_now=True)
+
+    def __str__(self):
+        return f"Кандидат #{self.id} - {self.fullname} - {self.phone_number}"
+
+    class Meta:
+        ordering = ["-created"]
+        verbose_name = _("Кандидат")
+        verbose_name_plural = _("Кандидаты")

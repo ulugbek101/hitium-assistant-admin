@@ -1,41 +1,70 @@
 import logging
 
-from django.db.models.signals import post_save
+from django.db.models.signals import m2m_changed
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 
-from api.models import Task
+from api.models import Task, BotUser, Worker
 from api.telegram import send_message
 from api.translations import build_task_message
 
 logger = logging.getLogger('task_logger')
 
-@receiver(post_save, sender=Task)
-def task_post_save(sender, instance, created, **kwargs):
-    if created:
-        logger.info(f"New task created: {instance.name}")
 
-    else:
-        for brigade in instance.brigades.all():
+@receiver(m2m_changed, sender=Task.brigades.through)
+def task_brigades_changed(sender, instance, action, pk_set, **kwargs):
+    """
+    Send messages when brigades are assigned to a Task.
+    """
+    if action == "post_add":
+        brigades = instance.brigades.filter(pk__in=pk_set)
+
+        for brigade in brigades:
+            # Foreman
             foreman = brigade.foreman
-            workers = brigade.workers.all()
-
-            title = instance.name
-            description = instance.description if len(instance.description) <= 100 else f"{instance.description[:100]} ..."
-            deadline = instance.deadline.strftime("%d-%m-%Y")
-
-            text = build_task_message(lang=foreman.lang, title=title, description=description, deadline=deadline)
-
             try:
+                lang = BotUser.objects.get(telegram_id=foreman.telegram_id).lang
+                text = build_task_message(
+                    lang=lang,
+                    title=instance.name,
+                    description=(instance.description[:100] + "..." if len(instance.description) > 100 else instance.description),
+                    deadline=instance.deadline.strftime("%d-%m-%Y")
+                )
                 send_message(chat_id=foreman.telegram_id, text=text)
                 logger.info(f"Message sent to foreman {foreman.first_name} {foreman.last_name}")
             except Exception as e:
-                logger.error(f"Error sending message to foreman {foreman.first_name} {foreman.last_name}: {e}")
+                logger.error(f"Error sending message to foreman {foreman.first_name}: {e}")
 
-            for worker in workers:
-                text = build_task_message(lang=worker.lang, title=title, description=description, deadline=deadline)
+            # Workers
+            for worker in brigade.workers.all():
                 try:
+                    lang = BotUser.objects.get(telegram_id=worker.telegram_id).lang
+                    text = build_task_message(
+                        lang=lang,
+                        title=instance.name,
+                        description=(instance.description[:100] + "..." if len(instance.description) > 100 else instance.description),
+                        deadline=instance.deadline.strftime("%d-%m-%Y")
+                    )
                     send_message(chat_id=worker.telegram_id, text=text)
                     logger.info(f"Message sent to worker {worker.first_name} {worker.last_name}")
                 except Exception as e:
-                    logger.error(f"Error sending message to worker {worker.first_name} {worker.last_name}: {e}")
+                    logger.error(f"Error sending message to worker {worker.first_name}: {e}")
+
+
+@receiver(pre_delete, sender=Task)
+def save_task_details_on_finished_works(sender, instance, **kwargs):
+    """
+    Signal to save task details for it's finished works if the exist
+    """
+
+    instance.finished_works.update(task_name=instance.name)
+
+
+@receiver(pre_delete, sender=Worker)
+def save_worker_details_on_finished_works(sender, instance, **kwargs):
+    """
+    Signal to save worker details for it's finished works if the exist
+    """
+
+    instance.finished_works.update(worker_fullname=instance.full_name)

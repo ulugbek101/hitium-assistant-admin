@@ -1,14 +1,18 @@
 from datetime import datetime
 
+from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 
 from rest_framework.views import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 User = get_user_model()
 
 from django.db import transaction
-from .models import User, Specialization, Task
+from api.models import User, Specialization, Task, FinishedWork
+from api.serializers import TaskSerializer
 
 
 @transaction.atomic
@@ -99,5 +103,33 @@ def register_user(request):
     return JsonResponse({"status": "ok"})
 
 
+@api_view(["GET"])
+def get_tasks(request):
+    telegram_id = request.GET.get("telegram_id")
+
+    tasks = Task.objects.filter(
+        Q(brigades__foreman__telegram_id=telegram_id) |  # foreman of brigade
+        Q(brigades__workers__telegram_id=telegram_id)    # any worker in brigade
+    ).distinct()
+
+    tasks = TaskSerializer(tasks, many=True).data
+
+    return Response(data=tasks)
+
+
 def tasks(request):
-    return Task.objects.count()
+    result = Task.objects.count()
+
+    if result >= 100:
+        result = "99+"
+
+    return result
+
+
+def finished_works(request):
+    result = FinishedWork.objects.filter(is_done=False).count()
+
+    if result >= 100:
+        result = "99+"
+
+    return  result
