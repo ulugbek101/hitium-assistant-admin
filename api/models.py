@@ -18,29 +18,51 @@ DOCUMENT_TYPES = (
 )
 
 
+from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.hashers import make_password
+from django.utils.translation import gettext_lazy as _
+
+from .managers import UserManager, ForemanManager, WorkerManager
+
+
+ROLE_TYPES = (
+    ('worker', _("Работник")),
+    ('foreman', _("Бригадир")),
+    ('admin', _("Администратор")),
+)
+
+DOCUMENT_TYPES = (
+    ('passport', _("Паспорт")),
+    ('id_card', _("ID карта")),
+)
+
+
 class BotUser(models.Model):
     id = models.AutoField(primary_key=True)
-    telegram_id = models.CharField(max_length=255, unique=True)
-    lang = models.CharField(max_length=2, default='uz')
-    first_name = models.CharField(max_length=50, null=True, blank=True)
-    last_name = models.CharField(max_length=50, null=True, blank=True)
-    middle_name = models.CharField(max_length=50, null=True, blank=True)
-    born_year = models.DateField(null=True, blank=True)
-    phone_number = models.CharField(max_length=12, null=True, blank=True)
-    type_of_document = models.CharField(max_length=20, null=True, blank=True)
-    card_number = models.CharField(max_length=16, null=True, blank=True)
-    card_holder_name = models.CharField(max_length=100, null=True, blank=True)
-    tranzit_number = models.CharField(max_length=50, null=True, blank=True)
-    bank_name = models.CharField(max_length=20, null=True, blank=True)
-    specialization = models.CharField(max_length=255, null=True, blank=True)
-    id_card_photo1 = models.CharField(max_length=255, null=True, blank=True)
-    id_card_photo2 = models.CharField(max_length=255, null=True, blank=True)
-    passport_photo = models.CharField(max_length=255, null=True, blank=True)
+    telegram_id = models.CharField(_("Telegram ID"), max_length=255, unique=True)
+    lang = models.CharField(_("Язык"), max_length=2, default='uz')
+    first_name = models.CharField(_("Имя"), max_length=50, null=True, blank=True)
+    last_name = models.CharField(_("Фамилия"), max_length=50, null=True, blank=True)
+    middle_name = models.CharField(_("Отчество"), max_length=50, null=True, blank=True)
+    born_year = models.DateField(_("Дата рождения"), null=True, blank=True)
+    phone_number = models.CharField(_("Номер телефона"), max_length=12, null=True, blank=True)
+    type_of_document = models.CharField(_("Тип документа"), max_length=20, null=True, blank=True)
+    card_number = models.CharField(_("Номер карты"), max_length=16, null=True, blank=True)
+    card_holder_name = models.CharField(_("Владелец карты"), max_length=100, null=True, blank=True)
+    tranzit_number = models.CharField(_("Транзитный номер"), max_length=50, null=True, blank=True)
+    bank_name = models.CharField(_("Название банка"), max_length=50, null=True, blank=True)
+    specialization = models.CharField(_("Специализация"), max_length=255, null=True, blank=True)
+    id_card_photo1 = models.CharField(_("Фото ID карты (лицевая сторона)"), max_length=255, null=True, blank=True)
+    id_card_photo2 = models.CharField(_("Фото ID карты (обратная сторона)"), max_length=255, null=True, blank=True)
+    passport_photo = models.CharField(_("Фото паспорта"), max_length=255, null=True, blank=True)
+    created = models.DateTimeField(verbose_name=_("Дата создания"), auto_now_add=True)
+    updated = models.DateTimeField(verbose_name=_("Дата обновления"), auto_now_add=True)
 
     class Meta:
         db_table = "users"
-        verbose_name = _("Рабочий")
-        verbose_name_plural = _("Рабочие")
+        verbose_name = _("Работник (Telegram)")
+        verbose_name_plural = _("Работники (Telegram)")
         managed = False
 
     def __str__(self):
@@ -234,8 +256,8 @@ class Brigade(models.Model):
         related_name="worker_brigade",
         help_text=_("Выберите рабочих"),
     )
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(verbose_name=_("Дата создания"), auto_now_add=True)
+    updated = models.DateTimeField(verbose_name=_("Дата обновления"), auto_now_add=True)
 
     class Meta:
         verbose_name = _("Бригада")
@@ -350,7 +372,7 @@ class FinishedWork(models.Model):
     class Meta:
         ordering = ["-is_done", "-created"]
         verbose_name = _("Завершенная задача")
-        verbose_name = _("Завершенные задачи")
+        verbose_name_plural = _("Завершенные задачи")
 
 
 class FinishedWorkPhoto(models.Model):
@@ -363,9 +385,8 @@ class FinishedWorkPhoto(models.Model):
         return f"Фото #{self.pk} проделанной работы #{self.finished_work.pk}"
 
     class Meta:
-        ordering = ["-created"]
         verbose_name = _("Фото проделанной работы")
-        verbose_name = _("Фото проделанной работы")
+        verbose_name_plural = _("Фото проделанных работ")
 
 
 class Object(models.Model):
