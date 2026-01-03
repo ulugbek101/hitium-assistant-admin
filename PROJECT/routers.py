@@ -5,7 +5,7 @@ class DayRouter:
     """
 
     route_app_labels = {"api"}
-    bot_tables = ["day", "attendance", "botuser", "users"]
+    bot_tables = ["day", "attendance", "botuser"]
 
     def db_for_read(self, model, **hints):
         if model._meta.model_name in self.bot_tables:

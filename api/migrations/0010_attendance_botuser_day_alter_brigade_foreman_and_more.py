@@ -51,6 +51,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Рабочий',
                 'verbose_name_plural': 'Рабочие',
                 'db_table': 'users',
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -63,6 +64,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Рабочий день',
                 'verbose_name_plural': 'Рабочие дни',
                 'db_table': 'days',
+                'managed': False,
             },
         ),
         migrations.AlterField(
