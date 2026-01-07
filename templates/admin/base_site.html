@@ -1,0 +1,28 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">{% trans "My Admin" %}</a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}
+
+<!-- Language Dropdown -->
+<div style="float: right; margin-right: 20px;">
+    {% get_current_language as LANGUAGE_CODE %}
+    {% get_available_languages as LANGUAGES %}
+    
+    {% for code, lang in LANGUAGES %}
+        {% if code == LANGUAGE_CODE %}
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img style="height: 15px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/1280px-Flag_of_Russia.svg.png" alt=""> 
+            <span>{{ lang }}</span>
+        </span>    
+        {% endif %}
+    {% endfor %}
+</div>
+
+{{ block.super }}
+{% endblock %}
