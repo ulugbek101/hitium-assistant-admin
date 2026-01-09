@@ -9,7 +9,7 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    path("", admin.site.urls),
+    path("admin", admin.site.urls),
     path("api/v1/", include("api.urls")),
     prefix_default_language=False
 )
