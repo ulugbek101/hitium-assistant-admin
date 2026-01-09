@@ -1,295 +1,439 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+#: .\PROJECT\settings.py:159
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-27 15:01+0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 
-#: PROJECT/settings.py:193
-msgid "Основное"
+#: .\PROJECT\settings.py:160
+msgid ""
 msgstr ""
 
-#: PROJECT/settings.py:197 api/models.py:327
-msgid "Задачи"
+#: .\PROJECT\settings.py:199
+msgid ""
 msgstr ""
 
-#: PROJECT/settings.py:206 api/models.py:242 api/models.py:315
-msgid "Бригады"
+#: .\PROJECT\settings.py:202 .\api\models.py:352
+msgid ""
 msgstr ""
 
-#: PROJECT/settings.py:213
-msgid "Команда"
+#: .\PROJECT\settings.py:209 .\api\models.py:375
+msgid " "
 msgstr ""
 
-#: PROJECT/settings.py:218
-msgid "Все"
+#: .\PROJECT\settings.py:216 .\api\models.py:264 .\api\models.py:337
+msgid ""
 msgstr ""
 
-#: PROJECT/settings.py:227 api/models.py:198
-msgid "Бригадиры"
+#: .\PROJECT\settings.py:223
+msgid ""
 msgstr ""
 
-#: PROJECT/settings.py:234
-msgid "Другое"
+#: .\PROJECT\settings.py:227
+msgid ""
 msgstr ""
 
-#: PROJECT/settings.py:239 api/models.py:298
-msgid "Отметки"
+#: .\PROJECT\settings.py:232
+msgid ""
 msgstr ""
 
-#: PROJECT/settings.py:244 api/models.py:211
-msgid "Работники"
+#: .\PROJECT\settings.py:237 .\api\models.py:220
+msgid ""
 msgstr ""
 
-#: PROJECT/settings.py:249 api/models.py:256
-msgid "Рабочие дни"
+#: .\PROJECT\settings.py:242 .\api\models.py:439
+msgid ""
 msgstr ""
 
-#: PROJECT/settings.py:254 api/models.py:62
-msgid "Специализации"
+#: .\PROJECT\settings.py:249
+msgid ""
 msgstr ""
 
-#: api/models.py:10 api/models.py:210
-msgid "Работник"
+#: .\PROJECT\settings.py:253
+msgid "  "
 msgstr ""
 
-#: api/models.py:11 api/models.py:197 api/models.py:225
-msgid "Бригадир"
+#: .\PROJECT\settings.py:263 .\api\models.py:84
+msgid ""
 msgstr ""
 
-#: api/models.py:12
-msgid "Админ"
+#: .\PROJECT\settings.py:268 .\api\models.py:406
+msgid ""
 msgstr ""
 
-#: api/models.py:16
+#: .\api\models.py:10 .\api\models.py:30 .\api\models.py:232
+msgid ""
+msgstr ""
+
+#: .\api\models.py:11 .\api\models.py:31 .\api\models.py:219
+#: .\api\models.py:247
+msgid ""
+msgstr ""
+
+#: .\api\models.py:12
+msgid ""
+msgstr ""
+
+#: .\api\models.py:16
 msgid "Passport"
 msgstr ""
 
-#: api/models.py:17
+#: .\api\models.py:17
 msgid "ID Karta"
 msgstr ""
 
-#: api/models.py:42 api/models.py:269
-msgid "Рабочий"
+#: .\api\models.py:32
+msgid ""
 msgstr ""
 
-#: api/models.py:43 api/models.py:232
-msgid "Рабочие"
+#: .\api\models.py:36
+msgid ""
 msgstr ""
 
-#: api/models.py:53 api/models.py:147
-msgid "Дата создания"
+#: .\api\models.py:37
+msgid "ID "
 msgstr ""
 
-#: api/models.py:55 api/models.py:149
-msgid "Дата обновления"
+#: .\api\models.py:43
+msgid "Telegram ID"
 msgstr ""
 
-#: api/models.py:61 api/models.py:105
-msgid "Специализация"
+#: .\api\models.py:44
+msgid ""
 msgstr ""
 
-#: api/models.py:74
-msgid "Телеграмм ID"
+#: .\api\models.py:45 .\api\models.py:104
+msgid ""
 msgstr ""
 
-#: api/models.py:76
-msgid "Номер телефона"
+#: .\api\models.py:46 .\api\models.py:105
+msgid ""
 msgstr ""
 
-#: api/models.py:79
-msgid "Должен быть в формате 998996937308"
+#: .\api\models.py:47 .\api\models.py:106
+msgid ""
 msgstr ""
 
-#: api/models.py:82
-msgid "Имя"
+#: .\api\models.py:48 .\api\models.py:108
+msgid " "
 msgstr ""
 
-#: api/models.py:83
-msgid "Фамилия"
+#: .\api\models.py:49 .\api\models.py:98 .\api\models.py:428
+msgid " "
 msgstr ""
 
-#: api/models.py:84
-msgid "Отчество"
+#: .\api\models.py:50 .\api\models.py:111
+msgid " "
 msgstr ""
 
-#: api/models.py:86
-msgid "Дата рождения"
+#: .\api\models.py:51 .\api\models.py:117
+msgid " "
 msgstr ""
 
-#: api/models.py:89
-msgid "Тип документа"
+#: .\api\models.py:52
+msgid " "
 msgstr ""
 
-#: api/models.py:95
-msgid "Номер карты"
+#: .\api\models.py:53 .\api\models.py:121
+msgid " "
 msgstr ""
 
-#: api/models.py:97
-msgid "Носитель карты"
+#: .\api\models.py:54
+msgid " "
 msgstr ""
 
-#: api/models.py:99
-msgid "Транзитный номер"
+#: .\api\models.py:55 .\api\models.py:83 .\api\models.py:127
+#: .\api\models.py:429
+msgid ""
 msgstr ""
 
-#: api/models.py:101
-msgid "Наименование банка"
+#: .\api\models.py:56
+msgid " ID  ( )"
 msgstr ""
 
-#: api/models.py:111
-msgid "Роль"
+#: .\api\models.py:57
+msgid " ID  ( )"
 msgstr ""
 
-#: api/models.py:118
-msgid "Фото пасспорта"
+#: .\api\models.py:58
+msgid " "
 msgstr ""
 
-#: api/models.py:124
-msgid "Фото ID карты (лицевая часть)"
+#: .\api\models.py:59 .\api\models.py:75 .\api\models.py:169
+#: .\api\models.py:259 .\api\models.py:346 .\api\models.py:365
+#: .\api\models.py:381 .\api\models.py:397 .\api\models.py:412
+#: .\api\models.py:430
+msgid " "
 msgstr ""
 
-#: api/models.py:130
-msgid "Фото ID карты (задняя часть)"
+#: .\api\models.py:60 .\api\models.py:77 .\api\models.py:171
+#: .\api\models.py:260 .\api\models.py:347 .\api\models.py:366
+#: .\api\models.py:382 .\api\models.py:398 .\api\models.py:413
+#: .\api\models.py:431
+msgid " "
 msgstr ""
 
-#: api/models.py:137
-msgid "Статус сотрудника"
+#: .\api\models.py:64
+msgid " (Telegram)"
 msgstr ""
 
-#: api/models.py:139
-msgid "Может ли сотрудник заходить в админ панель"
+#: .\api\models.py:65
+msgid " (Telegram)"
 msgstr ""
 
-#: api/models.py:142
-msgid "Статус активности пользователя"
+#: .\api\models.py:73
+msgid " "
 msgstr ""
 
-#: api/models.py:144
-msgid "Статус cуперпользователя"
+#: .\api\models.py:96
+msgid " ID"
 msgstr ""
 
-#: api/models.py:183
-msgid "Пользователь"
+#: .\api\models.py:101
+msgid "    998996937308"
 msgstr ""
 
-#: api/models.py:184
-msgid "Пользователи"
+#: .\api\models.py:119
+msgid " "
 msgstr ""
 
-#: api/models.py:220
-msgid "Назвние"
+#: .\api\models.py:123
+msgid " "
 msgstr ""
 
-#: api/models.py:221
-msgid "Дайте название бригаде"
+#: .\api\models.py:133
+msgid ""
 msgstr ""
 
-#: api/models.py:229
-msgid "Выберите бригадира"
+#: .\api\models.py:140
+msgid " "
 msgstr ""
 
-#: api/models.py:235
-msgid "Выберите рабочих"
+#: .\api\models.py:146
+msgid " ID  ( )"
 msgstr ""
 
-#: api/models.py:241
-msgid "Бригада"
+#: .\api\models.py:152
+msgid " ID  ( )"
 msgstr ""
 
-#: api/models.py:251
-msgid "Дата рабочего дня"
+#: .\api\models.py:159
+msgid " "
 msgstr ""
 
-#: api/models.py:255 api/models.py:275
-msgid "Рабочий день"
+#: .\api\models.py:161
+msgid "      "
 msgstr ""
 
-#: api/models.py:279
-msgid "Отсутсвует"
+#: .\api\models.py:164
+msgid "  "
 msgstr ""
 
-#: api/models.py:280
-msgid "Если работник ЯВИЛСЯ на работу, то надо ОТКЛЮЧТЬ"
+#: .\api\models.py:166
+msgid " c"
 msgstr ""
 
-#: api/models.py:285
-msgid "Время начала работы"
+#: .\api\models.py:205
+msgid ""
 msgstr ""
 
-#: api/models.py:286
-msgid "Когда работник начал рабочий день"
+#: .\api\models.py:206
+msgid ""
 msgstr ""
 
-#: api/models.py:291
-msgid "Время завершения работы"
-msgstr "Ishni tugatgan vaqti"
+#: .\api\models.py:233
+msgid ""
+msgstr ""
 
-#: api/models.py:292
-msgid "Когда работник завершил рабочий день"
-msgstr "Ishni qachon ishni tugatgan"
+#: .\api\models.py:242
+msgid ""
+msgstr ""
 
-#: api/models.py:297
-msgid "Отметка"
-msgstr "Davomat"
+#: .\api\models.py:243
+msgid "  "
+msgstr ""
 
-#: api/models.py:307
-msgid "Название задачи"
-msgstr "Vazifa nomi"
+#: .\api\models.py:251
+msgid " "
+msgstr ""
 
-#: api/models.py:308
-msgid "Краткое описание задачи"
-msgstr "Qisqacha ta'rifi"
+#: .\api\models.py:254
+msgid ""
+msgstr ""
 
-#: api/models.py:311
-msgid "Описание"
-msgstr "Ta'rifi"
+#: .\api\models.py:257
+msgid " "
+msgstr ""
 
-#: api/models.py:312
-msgid "Подробное описание задачи"
-msgstr "Vazifaning batafsil ta'rifi"
+#: .\api\models.py:263
+msgid ""
+msgstr ""
 
-#: api/models.py:317
-msgid "Бригады, которые будут заниматься задачей"
-msgstr "Vazifa bilan shug'ullanadigan brigadalar"
+#: .\api\models.py:273
+msgid "  "
+msgstr ""
 
-#: api/models.py:319
-msgid "Завершено"
-msgstr "Tugagan"
+#: .\api\models.py:277 .\api\models.py:297
+msgid " "
+msgstr ""
 
-#: api/models.py:321
-msgid "Дедлайн"
-msgstr "Muhlat"
+#: .\api\models.py:278
+msgid " "
+msgstr ""
 
-#: api/models.py:322
-msgid "Дата завершения работы"
-msgstr "Ishni tugatish vaqti"
+#: .\api\models.py:291
+msgid ""
+msgstr ""
 
-#: api/models.py:326
-msgid "Задача"
-msgstr "Vazifa"
+#: .\api\models.py:301
+msgid ""
+msgstr ""
 
-#: api/translations.py:17
-msgid "Новая задача"
-msgstr "Yangi vazifa"
+#: .\api\models.py:302
+msgid "    ,   "
+msgstr ""
 
-#: api/translations.py:20
-msgid "Дата сдачи"
-msgstr "Topshirish sanasi"
+#: .\api\models.py:307
+msgid "  "
+msgstr ""
 
-#: api/translations.py:23
-msgid "Что бы прочитать полностью, перейдите в раздел задач с командой /tasks"
-msgstr "To'liq tanishish uchun, /tasks buyrug'i bilan vazifalar bo'limiga o'ting"
+#: .\api\models.py:308
+msgid "    "
+msgstr ""
+
+#: .\api\models.py:313
+msgid "  "
+msgstr ""
+
+#: .\api\models.py:314
+msgid "    "
+msgstr ""
+
+#: .\api\models.py:319
+msgid ""
+msgstr ""
+
+#: .\api\models.py:320
+msgid ""
+msgstr ""
+
+#: .\api\models.py:329 .\api\models.py:360
+msgid " "
+msgstr ""
+
+#: .\api\models.py:330
+msgid "  "
+msgstr ""
+
+#: .\api\models.py:333 .\api\models.py:363
+msgid ""
+msgstr ""
+
+#: .\api\models.py:334
+msgid "  "
+msgstr ""
+
+#: .\api\models.py:339
+msgid ",    "
+msgstr ""
+
+#: .\api\models.py:341
+msgid ""
+msgstr ""
+
+#: .\api\models.py:343
+msgid ""
+msgstr ""
+
+#: .\api\models.py:344
+msgid "  "
+msgstr ""
+
+#: .\api\models.py:351 .\api\models.py:359
+msgid ""
+msgstr ""
+
+#: .\api\models.py:360 .\api\models.py:362
+msgid ",    ,   "
+msgstr ""
+
+#: .\api\models.py:361 .\api\models.py:362
+msgid ",   "
+msgstr ""
+
+#: .\api\models.py:363
+msgid " "
+msgstr ""
+
+#: .\api\models.py:364
+msgid ""
+msgstr ""
+
+#: .\api\models.py:370 .\api\models.py:374
+msgid " "
+msgstr ""
+
+#: .\api\models.py:379 .\api\models.py:410
+msgid " "
+msgstr ""
+
+#: .\api\models.py:380 .\api\models.py:411
+msgid ""
+msgstr ""
+
+#: .\api\models.py:388
+msgid "  "
+msgstr ""
+
+#: .\api\models.py:389
+msgid "  "
+msgstr ""
+
+#: .\api\models.py:393
+msgid " "
+msgstr ""
+
+#: .\api\models.py:394
+msgid "  "
+msgstr ""
+
+#: .\api\models.py:395
+msgid "  "
+msgstr ""
+
+#: .\api\models.py:396
+msgid " "
+msgstr ""
+
+#: .\api\models.py:405
+msgid ""
+msgstr ""
+
+#: .\api\models.py:420 .\api\models.py:421
+msgid " "
+msgstr ""
+
+#: .\api\models.py:427
+msgid " "
+msgstr ""
+
+#: .\api\models.py:428
+msgid "    13 , : +998996937308"
+msgstr ""
+
+#: .\api\models.py:438
+msgid ""
+msgstr ""
+
+#: .\api\translations.py:10
+msgid " "
+msgstr ""
+
+#: .\api\translations.py:13
+msgid " "
+msgstr ""
+
+#: .\api\translations.py:16
+msgid "   ,       /tasks"
+msgstr ""
+
+#: .\templates\admin\base_site.html:6
+msgid "My Admin"
+msgstr ""
