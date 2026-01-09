@@ -5,4 +5,5 @@ from . import views
 urlpatterns = [
     path('register-user/', views.register_user),
     path('tasks/', views.get_tasks),
+    path('specializations/', views.get_specializations),
 ]

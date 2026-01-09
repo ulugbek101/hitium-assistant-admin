@@ -1,3 +1,4 @@
+from json import dumps
 from datetime import datetime
 
 from django.db.models import Q
@@ -115,6 +116,16 @@ def get_tasks(request):
     tasks = TaskSerializer(tasks, many=True).data
 
     return Response(data=tasks)
+
+
+@api_view(["GET"])
+def get_specializations(request):
+    specializations = (
+        Specialization.objects
+        .values_list("name", flat=True)
+        .distinct()
+    )
+    return Response(list(specializations))
 
 
 def tasks(request):
