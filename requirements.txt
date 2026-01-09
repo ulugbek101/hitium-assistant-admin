@@ -7,8 +7,11 @@ django-modeltranslation==0.19.19
 django-unfold==0.75.0
 djangorestframework==3.16.1
 environs==14.5.0
+gunicorn==23.0.0
 idna==3.11
 marshmallow==4.1.2
+mysqlclient==2.2.7
+packaging==25.0
 pillow==12.1.0
 psycopg2-binary==2.9.11
 python-dotenv==1.2.1

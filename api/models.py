@@ -56,8 +56,6 @@ class BotUser(models.Model):
     id_card_photo1 = models.CharField(_("Фото ID карты (лицевая сторона)"), max_length=255, null=True, blank=True)
     id_card_photo2 = models.CharField(_("Фото ID карты (обратная сторона)"), max_length=255, null=True, blank=True)
     passport_photo = models.CharField(_("Фото паспорта"), max_length=255, null=True, blank=True)
-    created = models.DateTimeField(verbose_name=_("Дата создания"), auto_now_add=True)
-    updated = models.DateTimeField(verbose_name=_("Дата обновления"), auto_now_add=True)
 
     class Meta:
         db_table = "users"

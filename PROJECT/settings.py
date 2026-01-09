@@ -95,11 +95,11 @@ if DEBUG:
         'bot': {
             # Telegram bot DB
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'hitium_assistant',
-            'USER': 'root',
-            'PASSWORD': '12345678',
-            'HOST': '127.0.0.1',
-            'PORT': '3306',
+            'NAME': env.str('BOT_DB_NAME'),
+            'USER': env.str('BOT_DB_USER'),
+            'PASSWORD': env.str('BOT_DB_PASSWORD'),
+            'HOST': env.str('BOT_DB_HOST'),
+            'PORT': env.str('BOT_DB_PORT'),
         }
     }
 else:
