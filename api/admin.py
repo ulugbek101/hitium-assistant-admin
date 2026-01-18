@@ -148,11 +148,17 @@ class AttendanceAdmin(ModelAdmin):
     autocomplete_fields = ("day", "worker")
     search_help_text = "Имя сотрудника или номер телефона"
 
+    list_display = ["worker", "get_is_absent", "start_time", "end_time", "day"]
     list_filter_submit = True
     list_filter = ["day__date"]
 
     def has_add_permission(self, request):
         return False
+    
+    def get_is_absent(self, obj):
+        return f"✅" if not obj.is_absent else "❌"
+
+    get_is_absent.short_description = "Явился на работе"
 
 @admin.register(BotUser)
 class BotUserAdmin(ModelAdmin):
@@ -258,4 +264,3 @@ class FreshmanAdmin(ModelAdmin):
         ["created", RangeDateFilter],
         ["updated", RangeDateFilter],
     ]
-

@@ -319,7 +319,7 @@ class Attendance(models.Model):
         managed = False
 
     def __str__(self):
-        return f"{self.worker.first_name} - {self.day.date.strftime('%Y-%m-%d')} - {'✅' if self.is_absent else '❌'}"
+        return f"{self.worker.first_name} - {self.day.date.strftime('%Y-%m-%d')} - {'✅' if not self.is_absent else '❌'}"
 
 
 class Task(models.Model):
