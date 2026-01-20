@@ -72,6 +72,10 @@ def save_worker_details_on_finished_works(sender, instance, **kwargs):
 
 @receiver(pre_delete, sender=User)
 def delete_bot_user_on_user_delete(sender, instance, **kwargs):
+    """
+    Signal to delete a BotUser on User delete via admin panel
+    """
+    
     bot_user = BotUser.objects.filter(telegram_id=instance.telegram_id)
 
     # Stop, if no BotUser found by telegram id
@@ -81,3 +85,30 @@ def delete_bot_user_on_user_delete(sender, instance, **kwargs):
     # Delete BotUser as well if user object from admin panel is deleted
     bot_user.first().delete()
 
+
+@receiver(post_save, sender=User)
+def create_bot_user_for_user(sender, instance: User, created, **kwargs):
+    """
+    Automatically create BotUser when User is created
+    """
+    if not created:
+        return
+
+    # Prevent duplicate BotUser creation
+    if BotUser.objects.filter(telegram_id=instance.telegram_id).exists():
+        return
+
+    BotUser.objects.create(
+        telegram_id=instance.telegram_id,
+        first_name=instance.first_name,
+        last_name=instance.last_name,
+        middle_name=instance.middle_name,
+        born_year=instance.born_year,
+        phone_number=instance.phone_number,
+        type_of_document=instance.type_of_document,
+        card_number=instance.card_number,
+        card_holder_name=instance.card_holder_name,
+        tranzit_number=instance.tranzit_number,
+        bank_name=instance.bank_name,
+        specialization=instance.specialization.name if instance.specialization else None,
+    )
