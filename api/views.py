@@ -202,7 +202,7 @@ def download_attendance_report(request):
     missed_fill = PatternFill(start_color="FFD966", end_color="FFD966", fill_type="solid")  # orange bg for missed working day
 
     for user in users:
-        row = [f"{user.first_name or ""} {user.last_name or ""} {user.middle_name or ""}"]
+        row = [f"{user.first_name or ''} {user.last_name or ''} {user.middle_name or ''}"]
         total_seconds = 0
         worked_days = 0
         missed_days = 0
