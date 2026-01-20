@@ -7,22 +7,76 @@
 </h1>
 {% endblock %}
 
+{% block extrahead %}
+    {{ block.super }}
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        /* Download button styles */
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 0.5px solid #364153;
+            outline: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;                 /* cursor pointer */
+            transition: transform 0.1s ease; /* smooth scaling */
+            background-color: #101828;
+            color: white;
+        }
+
+        /* Scale down when active/clicked */
+        .download-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Optional: hover effect */
+        .download-btn:hover {
+            background-color: #1f2937;
+        }
+    </style>
+{% endblock %}
+
 {% block nav-global %}
 
-<!-- Language Dropdown -->
-<div style="float: right; margin-right: 20px;">
-    {% get_current_language as LANGUAGE_CODE %}
-    {% get_available_languages as LANGUAGES %}
+<div style="display: flex; flex-direction: row; align-items: center; gap: 50px;">
+    <!-- Download excel report button -->
+    {% if "attendance" in request.path %}
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <form method="get" action="{% url 'download_attendance_report' %}" style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+            <select name="period" required style="background-color: #101828; color: white; border: 0.5px solid #364153; outline: none; border-radius: 4px; padding: 9px 12px;">
+                <option value="current_month">Этот месяц</option>
+                <option value="prev_month">Прошлый месяц</option>
+            </select>
+
+            <button type="submit" class="download-btn">
+                <span class="material-icons">file_download</span>
+                Скачать
+            </button>
+        </form>
+    </div>
+    {% endif %}
     
-    {% for code, lang in LANGUAGES %}
-        {% if code == LANGUAGE_CODE %}
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img style="height: 15px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/1280px-Flag_of_Russia.svg.png" alt=""> 
-            <span>{{ lang }}</span>
-        </span>    
-        {% endif %}
-    {% endfor %}
+
+    <!-- Language Dropdown -->
+    <div style="float: right; margin-right: 20px;">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        
+        {% for code, lang in LANGUAGES %}
+            {% if code == LANGUAGE_CODE %}
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img style="height: 15px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/1280px-Flag_of_Russia.svg.png" alt=""> 
+                <span>{{ lang }}</span>
+            </span>    
+            {% endif %}
+        {% endfor %}
+    </div>
 </div>
+
 
 {{ block.super }}
 {% endblock %}

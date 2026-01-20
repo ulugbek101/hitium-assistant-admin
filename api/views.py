@@ -1,19 +1,29 @@
 from json import dumps
-from datetime import datetime
+from urllib.parse import quote
+from datetime import datetime, timedelta, date
+import calendar
+from collections import defaultdict
 
-from django.db.models import Q
+from django.utils import timezone
+from django.db.models import Q, F, Prefetch
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse
 
 from rest_framework.views import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-User = get_user_model()
+import openpyxl
+from openpyxl.styles import Alignment, PatternFill
 
 from django.db import transaction
-from api.models import User, Specialization, Task, FinishedWork
+from api.models import User, Specialization, Task, FinishedWork, BotUser, Attendance, Day
 from api.serializers import TaskSerializer
+
+
+User = get_user_model()
+
 
 
 @transaction.atomic
@@ -144,3 +154,116 @@ def finished_works(request):
         result = "99+"
 
     return  result
+
+
+def download_attendance_report(request):
+    period = request.GET.get("period", "current_month")
+    today = timezone.now()
+
+    full_date = timezone.now()
+
+    year = full_date.year
+    month = full_date.month
+
+    if period == "prev_month":
+        month -= 1
+        if month < 1:
+            month = 12
+            year -= 1
+
+    # Days in the month
+    _, last_day = calendar.monthrange(year, month)
+    month_days = [date(year, month, day) for day in range(1, last_day + 1)]
+
+    # Fetch all Day objects for the month
+    day_objs = Day.objects.filter(date__year=year, date__month=month)
+    
+    # Prefetch Attendance for all users for the month
+    attendances_qs = Attendance.objects.filter(day__in=day_objs)
+    users = BotUser.objects.prefetch_related(
+        Prefetch('attendance_set', queryset=attendances_qs, to_attr='month_attendance')
+    ).order_by('first_name')
+
+    # Prepare workbook
+    wb = openpyxl.Workbook()
+    ws = wb.active
+
+    title = f"{month if month > 9 else '0' + str(month)}.{year}"
+    ws.title = title
+
+    header = ["ФИО сотрудника"] + [f"{d.day if d.day > 9 else '0' + str(d.day)}" for d in month_days] + ["Всего за месяц", "Рабочие дни", "Пропущенные дни"]
+    ws.append(header)
+    
+    for col in range(1, len(header) + 1):
+        ws.cell(row=1, column=col).alignment = Alignment(horizontal="center")
+
+    today_date = timezone.now().date()
+    sunday_fill = PatternFill(start_color="FF9999", end_color="FF9999", fill_type="solid")  # red bg for Sunday
+    missed_fill = PatternFill(start_color="FFD966", end_color="FFD966", fill_type="solid")  # orange bg for missed working day
+
+    for user in users:
+        row = [f"{user.first_name} {user.last_name}"]
+        total_seconds = 0
+        worked_days = 0
+        missed_days = 0
+
+        for day_date in month_days:
+            cell_value = "-"
+            att = next((a for a in getattr(user, 'month_attendance', []) if a.day.date == day_date), None)
+
+            is_sunday = day_date.weekday() == 6
+            is_past_or_today = day_date <= today_date  # includes today
+            is_future = day_date > today_date
+
+            if att and att.start_time and att.end_time:
+                worked_seconds = (datetime.combine(day_date, att.end_time) - datetime.combine(day_date, att.start_time)).seconds
+                hours = worked_seconds // 3600
+                minutes = (worked_seconds % 3600) // 60
+                total_seconds += worked_seconds
+                cell_value = f"{hours} ч. {minutes} мин."
+                worked_days += 1
+            elif not is_sunday and is_past_or_today:
+                # Count as missed working day only if day is past or today
+                missed_days += 1
+
+            row.append(cell_value)
+
+        total_hours = total_seconds // 3600
+        total_minutes = (total_seconds % 3600) // 60
+        row.append(f"{total_hours} ч. {total_minutes} мин.")
+        row.append(worked_days)
+        row.append(missed_days)
+
+        ws.append(row)
+
+        # Center all cells and apply coloring
+        for col_idx, day_date in enumerate(month_days, start=2):
+            cell = ws.cell(row=ws.max_row, column=col_idx)
+            cell.alignment = Alignment(horizontal="center")
+
+            if day_date <= today_date:  # only color past days and today
+                if day_date.weekday() == 6:
+                    cell.fill = sunday_fill
+                elif cell.value == "-":
+                    cell.fill = missed_fill
+
+        # Center total/worked/missed columns
+        for col_idx in range(len(row) - 2, len(row) + 1):
+            ws.cell(row=ws.max_row, column=col_idx).alignment = Alignment(horizontal="center")
+
+    # Auto-width columns
+    for col in ws.columns:
+        max_length = max((len(str(cell.value)) for cell in col if cell.value), default=0)
+        col[0].column_letter
+        ws.column_dimensions[col[0].column_letter].width = max_length + 2
+
+    filename = f"Тебель рабочего времени за {month:02}.{year}.xlsx"
+    quoted_filename = quote(filename)  # URL-encode UTF-8
+    
+    # Return Excel response
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response['Content-Disposition'] = f"attachment; filename*=UTF-8''{quoted_filename}"
+    wb.save(response)
+    return response
