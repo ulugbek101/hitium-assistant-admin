@@ -5,7 +5,7 @@ from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 
-from api.models import Task, BotUser, Worker
+from api.models import Task, BotUser, Worker, User
 from api.telegram import send_message
 from api.translations import build_task_message
 
@@ -68,3 +68,16 @@ def save_worker_details_on_finished_works(sender, instance, **kwargs):
     """
 
     instance.finished_works.update(worker_fullname=instance.full_name)
+
+
+@receiver(pre_delete, sender=User)
+def delete_bot_user_on_user_delete(sender, instance, **kwargs):
+    bot_user = BotUser.objects.filter(telegram_id=instance.telegram_id)
+
+    # Stop, if no BotUser found by telegram id
+    if not bot_user.exists(): 
+        return
+
+    # Delete BotUser as well if user object from admin panel is deleted
+    bot_user.first().delete()
+
