@@ -149,6 +149,7 @@ class AttendanceAdmin(ModelAdmin):
     search_help_text = "Имя сотрудника или номер телефона"
 
     list_display = ["worker", "get_is_absent", "start_time", "end_time", "day"]
+    list_editable = ["start_time", "end_time"]
     list_filter_submit = True
     list_filter = ["day__date"]
 
