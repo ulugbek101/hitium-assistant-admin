@@ -159,7 +159,7 @@ class AttendanceAdmin(ModelAdmin):
     def get_is_absent(self, obj):
         return f"✅" if not obj.is_absent else "❌"
 
-    get_is_absent.short_description = "Явился на работе"
+    get_is_absent.short_description = "Явился на работу"
 
 @admin.register(BotUser)
 class BotUserAdmin(ModelAdmin):
