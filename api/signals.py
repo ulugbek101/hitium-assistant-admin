@@ -113,6 +113,6 @@ def create_bot_user_for_user(sender, instance: User, created, **kwargs):
             bank_name=instance.bank_name,
             specialization=instance.specialization.name if instance.specialization else None,
         )
-    except:
+    except Exception as exp:
         print("Something went wrong while creating BotUser")
-        pass
+        print(f"{exp.__class__.__name__}: {exp}")
