@@ -86,33 +86,33 @@ def delete_bot_user_on_user_delete(sender, instance, **kwargs):
     bot_user.first().delete()
 
 
-@receiver(post_save, sender=User)
-def create_bot_user_for_user(sender, instance: User, created, **kwargs):
-    """
-    Automatically create BotUser when User is created
-    """
-    if not created:
-        return
+# @receiver(post_save, sender=User)
+# def create_bot_user_for_user(sender, instance: User, created, **kwargs):
+#     """
+#     Automatically create BotUser when User is created
+#     """
+#     if not created:
+#         return
 
-    # Prevent duplicate BotUser creation
-    if BotUser.objects.filter(telegram_id=instance.telegram_id).exists():
-        return
+#     # Prevent duplicate BotUser creation
+#     if BotUser.objects.filter(telegram_id=instance.telegram_id).exists():
+#         return
 
-    try:
-        BotUser.objects.create(
-            telegram_id=instance.telegram_id,
-            first_name=instance.first_name,
-            last_name=instance.last_name,
-            middle_name=instance.middle_name,
-            born_year=instance.born_year,
-            phone_number=instance.phone_number,
-            type_of_document=instance.type_of_document,
-            card_number=instance.card_number,
-            card_holder_name=instance.card_holder_name,
-            tranzit_number=instance.tranzit_number,
-            bank_name=instance.bank_name,
-            specialization=instance.specialization.name if instance.specialization else None,
-        )
-    except Exception as exp:
-        print("Something went wrong while creating BotUser")
-        print(f"{exp.__class__.__name__}: {exp}")
+#     try:
+#         BotUser.objects.create(
+#             telegram_id=instance.telegram_id,
+#             first_name=instance.first_name,
+#             last_name=instance.last_name,
+#             middle_name=instance.middle_name,
+#             born_year=instance.born_year,
+#             phone_number=instance.phone_number,
+#             type_of_document=instance.type_of_document,
+#             card_number=instance.card_number,
+#             card_holder_name=instance.card_holder_name,
+#             tranzit_number=instance.tranzit_number,
+#             bank_name=instance.bank_name,
+#             specialization=instance.specialization.name if instance.specialization else None,
+#         )
+#     except Exception as exp:
+#         print("Something went wrong while creating BotUser")
+#         print(f"{exp.__class__.__name__}: {exp}")
