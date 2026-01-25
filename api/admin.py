@@ -69,8 +69,8 @@ class UserAdmin(BaseUserAdmin):
         ["updated", RangeDateFilter],
     ]
 
-    def has_add_permission(self, request):
-        return False
+    # def has_add_permission(self, request):
+    #   return True
 
 
 @admin.register(Foreman)
