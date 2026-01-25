@@ -20,8 +20,8 @@ class BaseUserAdmin(ModelAdmin):
         "middle_name", "phone_number", "role"
     )
     list_display_links = ("telegram_id",)
-    search_fields = ("first_name", "last_name", "middle_name", "phone_number")
-    search_help_text = "Telegram ID, Имя, Фамилия, Отчество ..."
+    search_fields = ("telegram_id", "first_name", "last_name", "middle_name", "phone_number")
+    search_help_text = "Telegram ID, Имя, Фамилия, Отчество, Номер телефона"
 
     fieldsets = (
         ("Основная информация", {
