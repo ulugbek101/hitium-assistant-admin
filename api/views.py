@@ -206,15 +206,15 @@ def download_attendance_report(request):
         total_seconds = 0
         worked_days = 0
         missed_days = 0
-        attendance_map = {
-            a.day.date: a
-            for a in getattr(user, 'month_attendance', [])
-        }
+        # attendance_map = {
+        #     a.day.date: a
+        #     for a in getattr(user, 'month_attendance', [])
+        # }
 
         for day_date in month_days:
             cell_value = "-"
-            # att = next((a for a in getattr(user, 'month_attendance', []) if a.day.date == day_date), None)
-            att = attendance_map.get(day_date)
+            att = next((a for a in getattr(user, 'month_attendance', []) if a.day.date == day_date), None)
+            # att = attendance_map.get(day_date)
 
             is_sunday = day_date.weekday() == 6
             is_past_or_today = day_date <= today_date  # includes today
