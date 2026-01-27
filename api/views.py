@@ -221,16 +221,16 @@ def download_attendance_report(request):
             is_future = day_date > today_date
 
             if att and att.start_time:
-                total_seconds += worked_seconds
-                cell_value = f"{hours} ч. {minutes} мин."
-                worked_seconds = (datetime.combine(day_date, att.end_time) - datetime.combine(day_date, att.start_time)).seconds
-                
                 if not att.end_time:
                     cell_value = f"В процессе"
-                    worked_hours = 0
-                    
-                hours = worked_seconds // 3600
-                minutes = (worked_seconds % 3600) // 60
+                    worked_seconds = 0
+                else:  
+                    worked_seconds = (datetime.combine(day_date, att.end_time) - datetime.combine(day_date, att.start_time)).seconds
+                    hours = worked_seconds // 3600
+                    minutes = (worked_seconds % 3600) // 60
+                    cell_value = f"{hours} ч. {minutes} мин."
+                
+                total_seconds += worked_seconds
                 worked_days += 1
             elif not is_sunday and is_past_or_today:
                 # Count as missed working day only if day is past or today
