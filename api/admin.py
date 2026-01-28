@@ -153,9 +153,9 @@ class AttendanceAdmin(ModelAdmin):
     list_filter_submit = True
     list_filter = ["day__date"]
 
-    def has_add_permission(self, request):
-        return False
-    
+    # def has_add_permission(self, request):
+    #     return False
+
     def get_is_absent(self, obj):
         return f"✅" if not obj.is_absent else "❌"
 

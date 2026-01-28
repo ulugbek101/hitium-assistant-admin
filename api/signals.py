@@ -75,11 +75,11 @@ def delete_bot_user_on_user_delete(sender, instance, **kwargs):
     """
     Signal to delete a BotUser on User delete via admin panel
     """
-    
+
     bot_user = BotUser.objects.filter(telegram_id=instance.telegram_id)
 
     # Stop, if no BotUser found by telegram id
-    if not bot_user.exists(): 
+    if not bot_user.exists():
         return
 
     # Delete BotUser as well if user object from admin panel is deleted

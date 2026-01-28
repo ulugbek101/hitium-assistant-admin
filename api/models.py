@@ -103,7 +103,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(verbose_name=_("Фамилия"), max_length=255)
     middle_name = models.CharField(verbose_name=_("Отчество"), max_length=255)
 
-    born_year = models.DateField(verbose_name=_("Дата рождения"))
+    born_year = models.DateField(verbose_name=_("Дата рождения"), null=True, blank=True)
 
     type_of_document = models.CharField(
         verbose_name=_("Тип документа"),
@@ -154,7 +154,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     is_staff = models.BooleanField(
-        verbose_name=_("Статус сотрудника"),
+        verbose_name=_("Статус администратора"),
         default=False,
         help_text=_("Может ли сотрудник заходить в админ панель"),
     )
@@ -171,14 +171,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = [
         'telegram_id',
-        'first_name',
-        'last_name',
-        'middle_name',
-        'type_of_document',
-        'card_number',
-        'card_holder_name',
-        'tranzit_number',
-        'bank_name',
+        # 'first_name',
+        # 'last_name',
+        # 'middle_name',
+        # 'type_of_document',
+        # 'card_number',
+        # 'card_holder_name',
+        # 'tranzit_number',
+        # 'bank_name',
     ]
 
     objects = UserManager()
@@ -253,6 +253,7 @@ class Brigade(models.Model):
         to=Worker,
         related_name="worker_brigade",
         help_text=_("Выберите рабочих"),
+        blank=True,
     )
     created = models.DateTimeField(verbose_name=_("Дата создания"), auto_now_add=True)
     updated = models.DateTimeField(verbose_name=_("Дата обновления"), auto_now_add=True)

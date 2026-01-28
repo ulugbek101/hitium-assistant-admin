@@ -39,3 +39,5 @@
 2025-12-28 19:14:21,483 [INFO] task_logger: Message sent to worker Ulugbek Umaraliev
 2025-12-28 19:16:48,970 [INFO] task_logger: Message sent to foreman Jaloldin Sultonov
 2025-12-28 19:16:49,344 [INFO] task_logger: Message sent to worker Ulugbek Umaraliev
+2026-01-26 10:08:59,850 [ERROR] task_logger: Error sending message to foreman Ulugbek: Error loading MySQLdb module.
+Did you install mysqlclient?
