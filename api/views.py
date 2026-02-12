@@ -229,7 +229,7 @@ def download_attendance_report(request):
                     hours = worked_seconds // 3600
                     minutes = (worked_seconds % 3600) // 60
                     cell_value = f"{hours} ч. {minutes} мин."
-                
+
                 total_seconds += worked_seconds
                 worked_days += 1
             elif not is_sunday and is_past_or_today:
@@ -238,6 +238,9 @@ def download_attendance_report(request):
 
             row.append(cell_value)
 
+        # Subtract the time workers spent for lunch
+        worked_seconds -= 3600
+        
         total_hours = total_seconds // 3600
         total_minutes = (total_seconds % 3600) // 60
         row.append(f"{total_hours} ч. {total_minutes} мин.")
