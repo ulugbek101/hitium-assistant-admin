@@ -239,7 +239,7 @@ def download_attendance_report(request):
             row.append(cell_value)
 
         # Subtract the time workers spent for lunch
-        worked_seconds -= 3600
+        total_seconds -= 3600
         
         total_hours = total_seconds // 3600
         total_minutes = (total_seconds % 3600) // 60
