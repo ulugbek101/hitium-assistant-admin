@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+	</head>
+	<body class="bg-transparent text-white w-full">
+		<div class="flex items-center gap-3 absolute -top-5 w-full">
+			<form
+				method="get"
+				action="{% url 'download_attendance_report' %}"
+				class="flex items-center justify-between gap-1 absolute top-[25px] w-full"
+			>
+				<div class="flex flex-row items-center gap-2">
+					<input class="border border-[#364153] bg-transparent px-2 py-1 rounded" type="date" name="date_from"/>
+					<input class="border border-[#364153] bg-transparent px-2 py-1 rounded" type="date" name="date_to" />
+				</div>
+				<button class="mas-auto border border-[#c12500] rounded text-[#c12500] hover:bg-[#c12500] hover:text-white transition hover:cursor-pointer py-[3.2px] px-2 active:scale-95" type="submit">Выгрузить</button>
+			</form>
+		</div>
+	</body>
+	<style>
+		input[type="date"]::-webkit-calendar-picker-indicator {
+			filter: invert(1);
+		}
+	</style>
+</html>

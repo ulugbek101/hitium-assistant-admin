@@ -45,33 +45,23 @@
 <div style="display: flex; flex-direction: row; align-items: center; gap: 50px;">
     <!-- Download excel report button -->
     {% if "attendance" in request.path %}
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <form method="get" action="{% url 'download_attendance_report' %}" style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-            <select name="period" required style="background-color: #101828; color: white; border: 0.5px solid #364153; outline: none; border-radius: 4px; padding: 9px 12px;">
-                <option value="current_month">Этот месяц</option>
-                <option value="prev_month">Прошлый месяц</option>
-            </select>
-
-            <button type="submit" class="download-btn">
-                <span class="material-icons">file_download</span>
-                Скачать
-            </button>
-        </form>
-    </div>
+        <iframe src="{% url 'download_report_component' %}"
+                style="border:none; width: 460px; height: 40px;">
+        </iframe>
     {% endif %}
-    
+
 
     <!-- Language Dropdown -->
     <div style="float: right; margin-right: 20px;">
         {% get_current_language as LANGUAGE_CODE %}
         {% get_available_languages as LANGUAGES %}
-        
+
         {% for code, lang in LANGUAGES %}
             {% if code == LANGUAGE_CODE %}
             <div style="display: flex; align-items: center; gap: 10px;">
-                <img style="height: 15px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/1280px-Flag_of_Russia.svg.png" alt=""> 
+                <img style="height: 15px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/1280px-Flag_of_Russia.svg.png" alt="">
                 <span>{{ lang }}</span>
-            </span>    
+            </span>
             {% endif %}
         {% endfor %}
     </div>

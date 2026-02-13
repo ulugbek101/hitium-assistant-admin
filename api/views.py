@@ -2,13 +2,14 @@ from json import dumps
 from urllib.parse import quote
 from datetime import datetime, timedelta, date
 import calendar
-from collections import defaultdict
 
+from django.views.decorators.clickjacking import xframe_options_exempt
+from django.shortcuts import render
 from django.utils import timezone
 from django.db.models import Q, F, Prefetch
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 
 from rest_framework.views import csrf_exempt
 from rest_framework.decorators import api_view
@@ -155,30 +156,72 @@ def finished_works(request):
 
     return  result
 
-
 def download_attendance_report(request):
-    period = request.GET.get("period", "current_month")
-    today = timezone.now()
+    # ✅ NEW: read from native date inputs (YYYY-MM-DD)
+    date_from_raw = request.GET.get("date_from")
+    date_to_raw = request.GET.get("date_to")
 
+    def parse_html_date(value: str):
+        try:
+            return datetime.strptime(value, "%Y-%m-%d").date()
+        except (TypeError, ValueError):
+            return None
+
+    date_from = parse_html_date(date_from_raw)
+    date_to = parse_html_date(date_to_raw)
+
+    # If user provided invalid date string -> 400
+    if date_from_raw and not date_from:
+        return HttpResponseBadRequest("Invalid date_from. Expected YYYY-MM-DD.")
+    if date_to_raw and not date_to:
+        return HttpResponseBadRequest("Invalid date_to. Expected YYYY-MM-DD.")
+
+    today = timezone.now()
     full_date = timezone.now()
 
-    year = full_date.year
-    month = full_date.month
+    # ✅ If both dates are provided -> use date range
+    if date_from and date_to:
+        if date_from > date_to:
+            date_from, date_to = date_to, date_from
 
-    if period == "prev_month":
-        month -= 1
-        if month < 1:
-            month = 12
-            year -= 1
+        start_date = date_from
+        end_date = date_to
 
-    # Days in the month
-    _, last_day = calendar.monthrange(year, month)
-    month_days = [date(year, month, day) for day in range(1, last_day + 1)]
+        # create list of days inclusive
+        days_count = (end_date - start_date).days + 1
+        month_days = [start_date + timedelta(days=i) for i in range(days_count)]
 
-    # Fetch all Day objects for the month
-    day_objs = Day.objects.filter(date__year=year, date__month=month)
-    
-    # Prefetch Attendance for all users for the month
+        # Fetch all Day objects for the range
+        day_objs = Day.objects.filter(date__range=(start_date, end_date))
+
+        # Title / filename for range
+        title = f"{start_date:%d.%m.%Y}-{end_date:%d.%m.%Y}"
+        filename = f"Тебель рабочего времени за {start_date:%d.%m.%Y}-{end_date:%d.%m.%Y}.xlsx"
+
+    else:
+        # ✅ fallback: your old dropdown period logic (UNCHANGED)
+        period = request.GET.get("period", "current_month")
+
+        year = full_date.year
+        month = full_date.month
+
+        if period == "prev_month":
+            month -= 1
+            if month < 1:
+                month = 12
+                year -= 1
+
+        # Days in the month
+        _, last_day = calendar.monthrange(year, month)
+        month_days = [date(year, month, day) for day in range(1, last_day + 1)]
+
+        # Fetch all Day objects for the month
+        day_objs = Day.objects.filter(date__year=year, date__month=month)
+
+        title = f"{month if month > 9 else '0' + str(month)}.{year}"
+        filename = f"Тебель рабочего времени за {month:02}.{year}.xlsx"
+
+    # Prefetch Attendance for all users for selected days
     attendances_qs = Attendance.objects.filter(day__in=day_objs)
     users = BotUser.objects.prefetch_related(
         Prefetch('attendance_set', queryset=attendances_qs, to_attr='month_attendance')
@@ -187,13 +230,11 @@ def download_attendance_report(request):
     # Prepare workbook
     wb = openpyxl.Workbook()
     ws = wb.active
-
-    title = f"{month if month > 9 else '0' + str(month)}.{year}"
     ws.title = title
 
     header = ["ФИО сотрудника"] + [f"{d.day if d.day > 9 else '0' + str(d.day)}" for d in month_days] + ["Всего за месяц", "Рабочие дни", "Пропущенные дни"]
     ws.append(header)
-    
+
     for col in range(1, len(header) + 1):
         ws.cell(row=1, column=col).alignment = Alignment(horizontal="center")
 
@@ -213,7 +254,6 @@ def download_attendance_report(request):
 
         for day_date in month_days:
             cell_value = "-"
-            # att = next((a for a in getattr(user, 'month_attendance', []) if a.day.date == day_date), None)
             att = attendance_map.get(day_date)
 
             is_sunday = day_date.weekday() == 6
@@ -224,16 +264,15 @@ def download_attendance_report(request):
                 if not att.end_time:
                     cell_value = f"В процессе"
                     worked_seconds = 0
-                else:  
+                else:
                     worked_seconds = (datetime.combine(day_date, att.end_time) - datetime.combine(day_date, att.start_time)).seconds
                     hours = worked_seconds // 3600
                     minutes = (worked_seconds % 3600) // 60
                     cell_value = f"{hours} ч. {minutes} мин."
-                
+
                 total_seconds += worked_seconds
                 worked_days += 1
             elif not is_sunday and is_past_or_today:
-                # Count as missed working day only if day is past or today
                 missed_days += 1
 
             row.append(cell_value)
@@ -264,12 +303,10 @@ def download_attendance_report(request):
     # Auto-width columns
     for col in ws.columns:
         max_length = max((len(str(cell.value)) for cell in col if cell.value), default=0)
-        col[0].column_letter
         ws.column_dimensions[col[0].column_letter].width = max_length + 2
 
-    filename = f"Тебель рабочего времени за {month:02}.{year}.xlsx"
     quoted_filename = quote(filename)  # URL-encode UTF-8
-    
+
     # Return Excel response
     response = HttpResponse(
         content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -277,3 +314,8 @@ def download_attendance_report(request):
     response['Content-Disposition'] = f"attachment; filename*=UTF-8''{quoted_filename}"
     wb.save(response)
     return response
+
+@xframe_options_exempt
+def download_report_component(request):
+    return render(request, "components/download_report.html")
+
