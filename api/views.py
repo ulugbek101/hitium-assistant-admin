@@ -279,7 +279,9 @@ def download_attendance_report(request):
 
         # Subtract the time workers spent for lunch
         total_seconds -= 3600
-        
+        if total_seconds < 0:
+            total_seconds = 0
+
         total_hours = total_seconds // 3600
         total_minutes = (total_seconds % 3600) // 60
         row.append(f"{total_hours} ч. {total_minutes} мин.")
