@@ -357,7 +357,7 @@ class Task(models.Model):
 class FinishedWork(models.Model):
     task = models.ForeignKey(verbose_name=_("Задача"), to=Task, on_delete=models.SET_NULL, null=True, related_name="finished_works")
     task_name = models.CharField(verbose_name=_("Название задачи"), max_length=255, null=True, blank=True, help_text=_("Пожалуйста, не заполняйте это поле, оно заполниться автоматически"))
-    worker = models.ForeignKey(verbose_name=_("Работник, который сделал работу"), to=Worker, on_delete=models.SET_NULL, null=True, related_name="finished_works")
+    worker = models.ForeignKey(verbose_name=_("Работник, который сделал работу"), to=User, on_delete=models.SET_NULL, null=True, related_name="finished_works")
     worker_fullname = models.CharField(verbose_name=_("Работник, который сделал работу"), max_length=255, null=True, blank=True, help_text=_("Пожалуйста, не заполняйте это поле, оно заполниться автоматически"))
     description = models.TextField(verbose_name=_("Описание"), null=True, blank=True, help_text=_("Необязательное поле"))
     is_done = models.BooleanField(verbose_name=_("Принято"), default=False)

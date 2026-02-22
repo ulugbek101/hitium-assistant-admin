@@ -19,7 +19,7 @@ import openpyxl
 from openpyxl.styles import Alignment, PatternFill
 
 from django.db import transaction
-from api.models import User, Specialization, Task, FinishedWork, BotUser, Attendance, Day
+from api.models import User, Specialization, Task, FinishedWork, BotUser, Attendance, Day, Worker, FinishedWorkPhoto
 from api.serializers import TaskSerializer
 
 
@@ -122,11 +122,34 @@ def get_tasks(request):
     tasks = Task.objects.filter(
         Q(brigades__foreman__telegram_id=telegram_id) |  # foreman of brigade
         Q(brigades__workers__telegram_id=telegram_id)    # any worker in brigade
-    ).distinct()
+    ).filter(deadline__gte=date.today()).distinct()
 
     tasks = TaskSerializer(tasks, many=True).data
 
     return Response(data=tasks)
+
+
+@api_view(["POST"])
+def save_finished_task_details(request):
+    # try:
+    task_id = request.POST.get("task_id")
+    description = request.POST.get("description")
+    worker_telegram_id = request.POST.get("worker_telegram_id")
+    photo = request.FILES.get("photo")
+
+    finished_work = FinishedWork.objects.create(
+        task=Task.objects.get(id=task_id),
+        description=description,
+        worker=User.objects.get(telegram_id=worker_telegram_id),
+    )
+    FinishedWorkPhoto.objects.create(
+        finished_work=finished_work,
+        photo=photo,
+    )
+
+    return Response(data={"sucess": True, "details": ""}, status=200)
+    # except Exception as e:
+        # return Response(data={"success": False, "details": f"{e}"}, status=500)
 
 
 @api_view(["GET"])
@@ -157,7 +180,6 @@ def finished_works(request):
     return  result
 
 def download_attendance_report(request):
-    # ✅ NEW: read from native date inputs (YYYY-MM-DD)
     date_from_raw = request.GET.get("date_from")
     date_to_raw = request.GET.get("date_to")
 
