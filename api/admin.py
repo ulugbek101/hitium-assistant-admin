@@ -163,6 +163,7 @@ class AttendanceAdmin(ModelAdmin):
 
 @admin.register(BotUser)
 class BotUserAdmin(ModelAdmin):
+    search_fields = ["first_name", "last_name", "middle_name"]
     list_display = ["first_name", "last_name", "middle_name"]
     list_display_links = ["first_name", "last_name", "middle_name"]
 
