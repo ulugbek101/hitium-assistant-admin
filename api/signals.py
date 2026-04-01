@@ -23,33 +23,36 @@ def task_brigades_changed(sender, instance, action, pk_set, **kwargs):
         for brigade in brigades:
             # Foreman
             foreman = brigade.foreman
-            try:
-                lang = BotUser.objects.get(telegram_id=foreman.telegram_id).lang
-                text = build_task_message(
-                    lang=lang,
-                    title=instance.name,
-                    description=(instance.description[:100] + "..." if len(instance.description) > 100 else instance.description),
-                    deadline=instance.deadline.strftime("%d-%m-%Y")
-                )
-                send_message(chat_id=foreman.telegram_id, text=text)
-                logger.info(f"Message sent to foreman {foreman.first_name} {foreman.last_name}")
-            except Exception as e:
-                logger.error(f"Error sending message to foreman {foreman.first_name}: {e}")
 
-            # Workers
-            for worker in brigade.workers.all():
+            if foreman.is_active:
                 try:
-                    lang = BotUser.objects.get(telegram_id=worker.telegram_id).lang
+                    lang = BotUser.objects.get(telegram_id=foreman.telegram_id).lang
                     text = build_task_message(
                         lang=lang,
                         title=instance.name,
                         description=(instance.description[:100] + "..." if len(instance.description) > 100 else instance.description),
                         deadline=instance.deadline.strftime("%d-%m-%Y")
                     )
-                    send_message(chat_id=worker.telegram_id, text=text)
-                    logger.info(f"Message sent to worker {worker.first_name} {worker.last_name}")
+                    send_message(chat_id=foreman.telegram_id, text=text)
+                    logger.info(f"Message sent to foreman {foreman.first_name} {foreman.last_name}")
                 except Exception as e:
-                    logger.error(f"Error sending message to worker {worker.first_name}: {e}")
+                    logger.error(f"Error sending message to foreman {foreman.first_name}: {e}")
+
+            # Workers
+            for worker in brigade.workers.all():
+                if worker.is_active:
+                    try:
+                        lang = BotUser.objects.get(telegram_id=worker.telegram_id).lang
+                        text = build_task_message(
+                            lang=lang,
+                            title=instance.name,
+                            description=(instance.description[:100] + "..." if len(instance.description) > 100 else instance.description),
+                            deadline=instance.deadline.strftime("%d-%m-%Y")
+                        )
+                        send_message(chat_id=worker.telegram_id, text=text)
+                        logger.info(f"Message sent to worker {worker.first_name} {worker.last_name}")
+                    except Exception as e:
+                        logger.error(f"Error sending message to worker {worker.first_name}: {e}")
 
 
 @receiver(pre_delete, sender=Task)
@@ -86,33 +89,15 @@ def delete_bot_user_on_user_delete(sender, instance, **kwargs):
     bot_user.first().delete()
 
 
-# @receiver(post_save, sender=User)
-# def create_bot_user_for_user(sender, instance: User, created, **kwargs):
-#     """
-#     Automatically create BotUser when User is created
-#     """
-#     if not created:
-#         return
+@receiver(post_save, sender=User)
+def deactivate_bot_user(sender, instance, **kwargs):
+    bot_user = BotUser.objects.filter(telegram_id=instance.telegram_id).first()
 
-#     # Prevent duplicate BotUser creation
-#     if BotUser.objects.filter(telegram_id=instance.telegram_id).exists():
-#         return
+    # Stop execution if there is no bot user
+    # There would no be such cases, just extra check
+    if not bot_user: return
 
-#     try:
-#         BotUser.objects.create(
-#             telegram_id=instance.telegram_id,
-#             first_name=instance.first_name,
-#             last_name=instance.last_name,
-#             middle_name=instance.middle_name,
-#             born_year=instance.born_year,
-#             phone_number=instance.phone_number,
-#             type_of_document=instance.type_of_document,
-#             card_number=instance.card_number,
-#             card_holder_name=instance.card_holder_name,
-#             tranzit_number=instance.tranzit_number,
-#             bank_name=instance.bank_name,
-#             specialization=instance.specialization.name if instance.specialization else None,
-#         )
-#     except Exception as exp:
-#         print("Something went wrong while creating BotUser")
-#         print(f"{exp.__class__.__name__}: {exp}")
+    # Set bot user to inactive state to stop bot sending morning and evening notifications
+    if not instance.is_active_for_sending_notifications:
+        bot_user.is_active = False
+        bot_user.save(update_fields=['is_active'])

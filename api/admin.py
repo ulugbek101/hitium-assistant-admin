@@ -50,7 +50,7 @@ class BaseUserAdmin(ModelAdmin):
             "fields": ("role", "specialization")
         }),
         ("Статус", {
-            "fields": ("is_active", "is_staff")
+            "fields": ("is_active_for_sending_notifications", "is_staff")
         }),
     )
 
