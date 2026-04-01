@@ -56,6 +56,7 @@ class BotUser(models.Model):
     id_card_photo1 = models.CharField(_("Фото ID карты (лицевая сторона)"), max_length=255, null=True, blank=True)
     id_card_photo2 = models.CharField(_("Фото ID карты (обратная сторона)"), max_length=255, null=True, blank=True)
     passport_photo = models.CharField(_("Фото паспорта"), max_length=255, null=True, blank=True)
+    is_active = models.BooleanField(_("Статус активности"), default=True)
 
     class Meta:
         db_table = "users"
@@ -162,6 +163,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         "Статус активности пользователя"), default=True)
     is_superuser = models.BooleanField(verbose_name=_(
         "Статус cуперпользователя"), default=False)
+    is_active_for_sending_notifications = models.BooleanField(_("Статус активности пользователя"),
+                                                              default=True)
 
     created = models.DateTimeField(
         verbose_name=_("Дата создания"), auto_now_add=True)
@@ -171,14 +174,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = [
         'telegram_id',
-        # 'first_name',
-        # 'last_name',
-        # 'middle_name',
-        # 'type_of_document',
-        # 'card_number',
-        # 'card_holder_name',
-        # 'tranzit_number',
-        # 'bank_name',
     ]
 
     objects = UserManager()
