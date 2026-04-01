@@ -229,9 +229,14 @@ UNFOLD = {
                         "link": reverse_lazy("admin:api_user_changelist"),
                     },
                     {
-                        "title": _("Сотрудники"),
+                        "title": _("Сотрудники (админка)"),
                         "icon": "engineering",
                         "link": reverse_lazy("admin:api_worker_changelist"),
+                    },
+                    {
+                        "title": _("Сотрудники (бот)"),
+                        "icon": "construction",
+                        "link": reverse_lazy("admin:api_botuser_changelist"),
                     },
                     {
                         "title": _("Бригадиры"),

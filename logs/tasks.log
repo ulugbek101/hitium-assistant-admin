@@ -41,3 +41,133 @@
 2025-12-28 19:16:49,344 [INFO] task_logger: Message sent to worker Ulugbek Umaraliev
 2026-01-26 10:08:59,850 [ERROR] task_logger: Error sending message to foreman Ulugbek: Error loading MySQLdb module.
 Did you install mysqlclient?
+2026-02-05 11:05:03,590 [INFO] task_logger: Message sent to foreman Odil Jalilov
+2026-02-05 11:05:04,192 [INFO] task_logger: Message sent to worker Шухрат Хашимов
+2026-02-05 11:05:04,803 [INFO] task_logger: Message sent to worker Ozodbek Egamberdiev
+2026-02-05 11:05:05,383 [INFO] task_logger: Message sent to worker Begijon Teshaboyev
+2026-02-05 11:05:05,989 [INFO] task_logger: Message sent to worker Ганишер Раимжонов
+2026-02-05 11:05:06,565 [INFO] task_logger: Message sent to worker Doniyor Komolov
+2026-02-05 11:05:07,176 [INFO] task_logger: Message sent to worker Виталий Быховой
+2026-02-05 11:05:07,752 [INFO] task_logger: Message sent to worker Javohir Urazbayev
+2026-02-05 11:05:08,321 [INFO] task_logger: Message sent to worker Алик Жумаев
+2026-02-05 11:05:08,890 [INFO] task_logger: Message sent to worker Фаиль Аминев
+2026-02-05 11:05:09,497 [INFO] task_logger: Message sent to worker Жамолиддин Махаматов
+2026-02-05 11:05:10,133 [INFO] task_logger: Message sent to worker Хумойиддин Махаматов
+2026-02-05 11:05:10,704 [INFO] task_logger: Message sent to worker Elmurod O‘sarboyev
+2026-02-05 11:05:11,307 [INFO] task_logger: Message sent to worker Жахонгир Махаматиллаев
+2026-02-05 11:05:11,881 [INFO] task_logger: Message sent to worker Adxam Kamilov
+2026-02-05 11:05:12,496 [INFO] task_logger: Message sent to worker Xusniddin Abdualiev
+2026-02-05 11:05:13,070 [INFO] task_logger: Message sent to worker Husniddin Maxamatov
+2026-02-05 11:05:13,647 [INFO] task_logger: Message sent to worker Улугбек Эгамов
+2026-02-05 11:05:14,240 [INFO] task_logger: Message sent to worker Muxammadali Abduraxmonov
+2026-02-05 11:05:14,857 [INFO] task_logger: Message sent to worker Jaloliddin Maxamatov
+2026-02-05 11:05:15,517 [INFO] task_logger: Message sent to worker Diyorbek Abduqodirov
+2026-02-05 11:05:16,130 [INFO] task_logger: Message sent to worker Marat Yakubov
+2026-02-21 15:05:17,937 [INFO] task_logger: Message sent to foreman Odil Jalilov
+2026-02-21 15:05:26,510 [INFO] task_logger: Message sent to worker Шухрат Хашимов
+2026-02-21 15:05:26,516 [ERROR] task_logger: Error sending message to worker Ozodbek: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,523 [ERROR] task_logger: Error sending message to worker Begijon: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,528 [ERROR] task_logger: Error sending message to worker Ганишер: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,536 [ERROR] task_logger: Error sending message to worker Doniyor: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,548 [ERROR] task_logger: Error sending message to worker Виталий: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,558 [ERROR] task_logger: Error sending message to worker Javohir: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,561 [ERROR] task_logger: Error sending message to worker Алик: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,579 [ERROR] task_logger: Error sending message to worker Фаиль: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,583 [ERROR] task_logger: Error sending message to worker Жамолиддин: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,595 [ERROR] task_logger: Error sending message to worker Хумойиддин: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,602 [ERROR] task_logger: Error sending message to worker Elmurod: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,609 [ERROR] task_logger: Error sending message to worker Жахонгир: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,616 [ERROR] task_logger: Error sending message to worker Adxam: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,623 [ERROR] task_logger: Error sending message to worker Xusniddin: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,633 [ERROR] task_logger: Error sending message to worker Husniddin: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,645 [ERROR] task_logger: Error sending message to worker Улугбек: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,656 [ERROR] task_logger: Error sending message to worker Muxammadali: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,659 [ERROR] task_logger: Error sending message to worker Jaloliddin: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,670 [ERROR] task_logger: Error sending message to worker Diyorbek: (2013, 'Lost connection to MySQL server during query')
+2026-02-21 15:05:26,680 [ERROR] task_logger: Error sending message to worker Marat: (2013, 'Lost connection to MySQL server during query')
+2026-02-22 15:01:46,680 [INFO] task_logger: Message sent to foreman Odil Jalilov
+2026-02-22 15:01:47,250 [INFO] task_logger: Message sent to worker Шухрат Хашимов
+2026-02-22 15:01:47,828 [INFO] task_logger: Message sent to worker Ozodbek Egamberdiev
+2026-02-22 15:01:48,404 [INFO] task_logger: Message sent to worker Begijon Teshaboyev
+2026-02-22 15:01:48,989 [INFO] task_logger: Message sent to worker Ганишер Раимжонов
+2026-02-22 15:01:49,573 [INFO] task_logger: Message sent to worker Doniyor Komolov
+2026-02-22 15:01:50,137 [INFO] task_logger: Message sent to worker Виталий Быховой
+2026-02-22 15:01:50,709 [INFO] task_logger: Message sent to worker Javohir Urazbayev
+2026-02-22 15:01:51,272 [INFO] task_logger: Message sent to worker Алик Жумаев
+2026-02-22 15:01:51,846 [INFO] task_logger: Message sent to worker Фаиль Аминев
+2026-02-22 15:01:52,425 [INFO] task_logger: Message sent to worker Жамолиддин Махаматов
+2026-02-22 15:01:53,224 [INFO] task_logger: Message sent to worker Хумойиддин Махаматов
+2026-02-22 15:01:53,795 [INFO] task_logger: Message sent to worker Elmurod O‘sarboyev
+2026-02-22 15:01:54,358 [INFO] task_logger: Message sent to worker Жахонгир Махаматиллаев
+2026-02-22 15:01:54,919 [INFO] task_logger: Message sent to worker Adxam Kamilov
+2026-02-22 15:01:55,535 [INFO] task_logger: Message sent to worker Xusniddin Abdualiev
+2026-02-22 15:01:56,136 [INFO] task_logger: Message sent to worker Husniddin Maxamatov
+2026-02-22 15:05:48,577 [INFO] task_logger: Message sent to foreman Odil Jalilov
+2026-02-22 15:05:49,131 [INFO] task_logger: Message sent to worker Шухрат Хашимов
+2026-02-22 15:05:49,680 [INFO] task_logger: Message sent to worker Ozodbek Egamberdiev
+2026-02-22 15:05:50,226 [INFO] task_logger: Message sent to worker Begijon Teshaboyev
+2026-02-22 15:05:50,780 [INFO] task_logger: Message sent to worker Ганишер Раимжонов
+2026-02-22 15:05:51,329 [INFO] task_logger: Message sent to worker Doniyor Komolov
+2026-02-22 15:05:51,884 [INFO] task_logger: Message sent to worker Виталий Быховой
+2026-02-22 15:05:52,423 [INFO] task_logger: Message sent to worker Javohir Urazbayev
+2026-02-22 15:05:52,983 [INFO] task_logger: Message sent to worker Алик Жумаев
+2026-02-22 15:05:53,542 [INFO] task_logger: Message sent to worker Фаиль Аминев
+2026-02-22 15:05:54,102 [INFO] task_logger: Message sent to worker Жамолиддин Махаматов
+2026-02-22 15:05:54,653 [INFO] task_logger: Message sent to worker Хумойиддин Махаматов
+2026-02-22 15:05:55,204 [INFO] task_logger: Message sent to worker Elmurod O‘sarboyev
+2026-02-22 15:05:55,758 [INFO] task_logger: Message sent to worker Жахонгир Махаматиллаев
+2026-02-22 15:05:56,314 [INFO] task_logger: Message sent to worker Adxam Kamilov
+2026-02-22 15:05:56,870 [INFO] task_logger: Message sent to worker Xusniddin Abdualiev
+2026-02-22 15:05:57,427 [INFO] task_logger: Message sent to worker Husniddin Maxamatov
+2026-02-22 15:05:57,990 [INFO] task_logger: Message sent to worker Улугбек Эгамов
+2026-02-22 15:05:58,570 [INFO] task_logger: Message sent to worker Muxammadali Abduraxmonov
+2026-02-22 15:05:59,193 [INFO] task_logger: Message sent to worker Jaloliddin Maxamatov
+2026-02-22 15:05:59,753 [INFO] task_logger: Message sent to worker Diyorbek Abduqodirov
+2026-02-22 15:06:00,297 [INFO] task_logger: Message sent to worker Marat Yakubov
+2026-02-24 10:47:56,155 [INFO] task_logger: Message sent to foreman Хусаин Шарафутдинов
+2026-02-24 10:47:56,714 [INFO] task_logger: Message sent to worker Begijon Teshaboyev
+2026-02-24 10:51:23,837 [INFO] task_logger: Message sent to foreman Тохиржон Раимов
+2026-02-24 10:51:24,415 [INFO] task_logger: Message sent to worker O'tkirbek Turobov
+2026-02-24 10:51:25,034 [INFO] task_logger: Message sent to worker Dilshodbek Nizomov
+2026-02-24 11:02:45,337 [INFO] task_logger: Message sent to foreman Marat Yakubov
+2026-02-24 11:02:45,879 [INFO] task_logger: Message sent to worker Рустам Жумаев
+2026-02-24 11:21:19,115 [INFO] task_logger: Message sent to foreman Jaxongir Xaydarov
+2026-02-24 11:21:19,681 [INFO] task_logger: Message sent to worker Рахматжон Исматиллаев
+2026-02-24 11:21:20,251 [INFO] task_logger: Message sent to worker Karimjon Ruziyev
+2026-02-24 11:28:42,524 [INFO] task_logger: Message sent to foreman Yahyobek Yoldashev
+2026-02-24 11:28:43,133 [INFO] task_logger: Message sent to worker Shuxratjon Turakulov
+2026-02-24 11:28:46,731 [INFO] task_logger: Message sent to worker Vohidjon Xamidov
+2026-02-24 11:28:47,321 [INFO] task_logger: Message sent to worker Sirojiddin Uskanboev
+2026-03-03 13:43:34,670 [INFO] task_logger: Message sent to foreman Javohir Abdivasiyev
+2026-03-03 13:43:35,251 [INFO] task_logger: Message sent to worker Mirzabek Tuxtayev
+2026-03-03 13:46:54,830 [INFO] task_logger: Message sent to foreman Zafar Raxmonov
+2026-03-03 13:46:55,401 [INFO] task_logger: Message sent to worker Javoxir Qurbonov
+2026-03-03 13:56:30,649 [INFO] task_logger: Message sent to foreman Dilshod Tursunbayev
+2026-03-03 13:56:31,195 [INFO] task_logger: Message sent to worker Жамшед Эркаев
+2026-03-03 13:56:31,746 [INFO] task_logger: Message sent to worker Azizbek Xasanov
+2026-03-03 13:56:32,294 [INFO] task_logger: Message sent to worker Sardor Abduraxmonov
+2026-03-03 13:57:35,729 [INFO] task_logger: Message sent to foreman Dilxayot Xamdamov
+2026-03-03 13:57:37,367 [INFO] task_logger: Message sent to worker Jahongir Botirov
+2026-03-03 13:57:37,911 [INFO] task_logger: Message sent to worker Qahramonjon Shokirov
+2026-03-03 13:57:38,442 [INFO] task_logger: Message sent to worker Muxtorbek Turobjonov
+2026-03-09 09:29:25,162 [INFO] task_logger: Message sent to foreman Marat Yakubov
+2026-03-09 09:29:25,722 [INFO] task_logger: Message sent to worker Рустам Жумаев
+2026-03-09 09:40:29,699 [INFO] task_logger: Message sent to foreman Javohir Abdivasiyev
+2026-03-09 09:40:30,259 [INFO] task_logger: Message sent to worker Mirzabek Tuxtayev
+2026-03-09 09:42:09,819 [INFO] task_logger: Message sent to foreman Zafar Raxmonov
+2026-03-09 09:42:10,365 [INFO] task_logger: Message sent to worker Javoxir Qurbonov
+2026-03-09 09:45:13,293 [INFO] task_logger: Message sent to foreman Jaxongir Xaydarov
+2026-03-09 09:45:13,843 [INFO] task_logger: Message sent to worker Рахматжон Исматиллаев
+2026-03-09 09:45:14,385 [INFO] task_logger: Message sent to worker Karimjon Ruziyev
+2026-03-09 09:46:50,570 [INFO] task_logger: Message sent to foreman Yahyobek Yoldashev
+2026-03-09 09:46:51,168 [INFO] task_logger: Message sent to worker Shuxratjon Turakulov
+2026-03-09 09:46:51,730 [INFO] task_logger: Message sent to worker Vohidjon Xamidov
+2026-03-09 09:46:52,322 [INFO] task_logger: Message sent to worker Sirojiddin Uskanboev
+2026-03-09 09:49:42,895 [INFO] task_logger: Message sent to foreman Dilshod Tursunbayev
+2026-03-09 09:49:43,478 [INFO] task_logger: Message sent to worker Жамшед Эркаев
+2026-03-09 09:49:47,119 [INFO] task_logger: Message sent to worker Azizbek Xasanov
+2026-03-09 09:49:47,680 [INFO] task_logger: Message sent to worker Sardor Abduraxmonov
+2026-03-09 09:51:40,850 [INFO] task_logger: Message sent to foreman Dilxayot Xamdamov
+2026-03-09 09:51:41,417 [INFO] task_logger: Message sent to worker Jahongir Botirov
+2026-03-09 09:51:41,965 [INFO] task_logger: Message sent to worker Qahramonjon Shokirov
+2026-03-09 09:51:42,508 [INFO] task_logger: Message sent to worker Muxtorbek Turobjonov
