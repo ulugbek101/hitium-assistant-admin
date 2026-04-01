@@ -97,7 +97,5 @@ def deactivate_bot_user(sender, instance, **kwargs):
     # There would no be such cases, just extra check
     if not bot_user: return
 
-    # Set bot user to inactive state to stop bot sending morning and evening notifications
-    if not instance.is_active_for_sending_notifications:
-        bot_user.is_active = False
-        bot_user.save(update_fields=['is_active'])
+    bot_user.is_active = instance.is_active_for_sending_notifications
+    bot_user.save(update_fields=['is_active'])
