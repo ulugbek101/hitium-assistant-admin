@@ -23,33 +23,36 @@ def task_brigades_changed(sender, instance, action, pk_set, **kwargs):
         for brigade in brigades:
             # Foreman
             foreman = brigade.foreman
-            try:
-                lang = BotUser.objects.get(telegram_id=foreman.telegram_id).lang
-                text = build_task_message(
-                    lang=lang,
-                    title=instance.name,
-                    description=(instance.description[:100] + "..." if len(instance.description) > 100 else instance.description),
-                    deadline=instance.deadline.strftime("%d-%m-%Y")
-                )
-                send_message(chat_id=foreman.telegram_id, text=text)
-                logger.info(f"Message sent to foreman {foreman.first_name} {foreman.last_name}")
-            except Exception as e:
-                logger.error(f"Error sending message to foreman {foreman.first_name}: {e}")
 
-            # Workers
-            for worker in brigade.workers.all():
+            if foreman.is_active:
                 try:
-                    lang = BotUser.objects.get(telegram_id=worker.telegram_id).lang
+                    lang = BotUser.objects.get(telegram_id=foreman.telegram_id).lang
                     text = build_task_message(
                         lang=lang,
                         title=instance.name,
                         description=(instance.description[:100] + "..." if len(instance.description) > 100 else instance.description),
                         deadline=instance.deadline.strftime("%d-%m-%Y")
                     )
-                    send_message(chat_id=worker.telegram_id, text=text)
-                    logger.info(f"Message sent to worker {worker.first_name} {worker.last_name}")
+                    send_message(chat_id=foreman.telegram_id, text=text)
+                    logger.info(f"Message sent to foreman {foreman.first_name} {foreman.last_name}")
                 except Exception as e:
-                    logger.error(f"Error sending message to worker {worker.first_name}: {e}")
+                    logger.error(f"Error sending message to foreman {foreman.first_name}: {e}")
+
+            # Workers
+            for worker in brigade.workers.all():
+                if worker.is_active:
+                    try:
+                        lang = BotUser.objects.get(telegram_id=worker.telegram_id).lang
+                        text = build_task_message(
+                            lang=lang,
+                            title=instance.name,
+                            description=(instance.description[:100] + "..." if len(instance.description) > 100 else instance.description),
+                            deadline=instance.deadline.strftime("%d-%m-%Y")
+                        )
+                        send_message(chat_id=worker.telegram_id, text=text)
+                        logger.info(f"Message sent to worker {worker.first_name} {worker.last_name}")
+                    except Exception as e:
+                        logger.error(f"Error sending message to worker {worker.first_name}: {e}")
 
 
 @receiver(pre_delete, sender=Task)
